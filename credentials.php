@@ -17,7 +17,7 @@
 		const INI = 'ebay_api';
 
 		/**
-		 * Queries a database for credintials and returns as an associative array
+		 * Queries a database for credentials and returns as an associative array
 		 *
 		 * This static method is protected, so it is only accessible through
 		 * eBay API Call class.
@@ -51,6 +51,18 @@
 			}
 			return self::$credentials[$store][$environment];
 		}
+
+		/**
+		 * Get eBayAuthToken for requested store & environment
+		 *
+		 * Also a static method using static multi-dimensional array. This one,
+		 * however, is public, so it can be accessed outside of eBay_API_Call
+		 * class.
+		 *
+		 * @param  string $store       [User in database, used to get credentials]
+		 * @param  string $environment [production or sandbox]
+		 * @return array              ['eBayAuthToken' => $token]
+		 */
 
 		public static function token($store, $environment = 'production') {
 			if(is_null(self::$tokens)) self::$tokens = [];
