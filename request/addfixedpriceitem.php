@@ -70,9 +70,9 @@
 					'Title' => 'New Nike Shox Elite TB White Mens Basketball Shoes S 12'
 				];
 			}
-			$this->RequesterCredentials([
-				'eBayAuthToken' => 'AgAAAA**AQAAAA**aAAAAA**IATYUg**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6wFk4GhC5eEoQmdj6x9nY+seQ**uX4CAA**AAMAAA**yFCs8iMUnWdu9R5on5m8foKxvnOGplnDLeTeRHua/3Ip9V4pHoL52Xmg3uuWCDVrvfZbyCqlOiyMh+lUu/T37IstU9GyA8hoVD6FU0wHVIF0iqJVvdMVxZI0Op7ChMXawFO6Dt9IMc1HdAJS1ykwwxPpNc+cshLXpEVoAxsuiLlB310sKR2LUsm68vzwUfMBbvh6GfVN6TPhUZgqIi8ZOw2o5iocbOh/Xhx6hM/ho8lChI8mTirf7ORInOCbQ+KBMAUiEob9NwfLx26IhKtYBt6Rn2wFnILVttr4mTcgv9jYFEh4R+A6AN0CJwWDHFYhBO6qAW6AyuUB0KeY/x7klXPy8t3OcRrpl8/D8cpzz5vy0vjaiRbj+pylxCEbiOwXdthuYX2N+RuK1VgX9puDsc4I3srmOAZBGGQVSz/eNrmOYFq4eiUVyxQvu50vbg/B/tZWLbjVQslUjMtY19UvNLzPybKl8gP3uvY1q1+wD6gN2p4lZ5hx+m0Svy68o57Ufh1HTKj7l8KEaZXEMQ7MhSQPW9T9EYabDLPfR9Z50IFcjn6r2+uiw4aFjWQUgu9BnVQiMmeRjxlAvPFSf0gg/XzyR+nU606N8q9oQd2c5E0+56IUFZaMHkhDLYqxpK/4CXgdletAJN/qX086Ef3AgJ5plPquJHJDFUfw+C/tlUAUvG0Nj+ZUH48opkqXjwls7w6xgqncls6f9iaZZ4luOLKd4HSPz/IY6WdidZVy432HIKKc21D9cXYgaUE80agc'
-			])->ErrorLanguage(
+			$this->RequesterCredentials(
+				\eBay_API\Credentials::token($store, ($sandbox) ? 'sandbox' : 'production')
+			)->ErrorLanguage(
 				'en_US'
 			)->WarningLevel(
 				'High'
