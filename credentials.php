@@ -13,7 +13,7 @@
 	use \core\_pdo as PDO;
 
 	class Credentials extends eBay_API_Call {
-		private static $credentials = null;
+		private static $credentials = null, $tokens = null;
 		const INI = 'ebay_api';
 
 		/**
@@ -32,7 +32,7 @@
 		 * @return array               [$key => $value array with eBay API headers credential]
 		 */
 
-		public static function fetch($store, $environment = 'production') {
+		protected static function fetch($store, $environment = 'production') {
 			if(is_null(self::$credentials)) self::$credentials = [];
 			if(!array_key_exists($store, self::$credentials)) self::$credentials[$store] = [];
 			if(!array_key_exists($environment, self::$credentials[$store])) {
@@ -50,6 +50,23 @@
 				])->execute()->get_results(0));
 			}
 			return self::$credentials[$store][$environment];
+		}
+
+		public static function token($store, $environment = 'production') {
+			if(is_null(self::$tokens)) self::$tokens = [];
+			if(!array_key_exists($store, self::$tokens)) self::$tokens[$store] = [];
+			if(!array_key_exists($environment, self::$tokens[$store])) {
+				$creds = PDO::load(self::INI);
+				self::$tokens[$store][$environment] = $creds->prepare("
+					SELECT `token`
+					FROM `{$creds->escape($environment)}`
+					WHERE `user` = :user
+					LIMIT 1
+				")->bind([
+					'user' => $store
+				])->execute()->get_results(0)->token;
+			}
+			return ['eBayAuthToken' => self::$tokens[$store][$environment]];
 		}
 	}
 ?>
