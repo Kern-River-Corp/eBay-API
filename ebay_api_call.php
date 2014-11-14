@@ -77,7 +77,7 @@
 						'X-EBAY-API-SITEID' => $siteID
 					]
 				),
-				$call_list[$callname],
+				(array_key_exists($callname, $call_list)) ? $call_list[$callname] : "{$callname}Request",
 				$urn,
 				$charset,
 				$verbose
