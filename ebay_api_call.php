@@ -53,7 +53,7 @@
 		) {
 			$call_list = [
 				'AddFixedPriceItem' => 'AddFixedPriceItemRequest',
-				'GetOrdersRequest' => 'GetOrders',
+				'GetOrders' => 'GetOrdersRequest',
 				'AddItem' => 'AddItemRequest'
 			];
 
