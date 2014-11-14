@@ -69,16 +69,16 @@
 			if(!array_key_exists($store, self::$tokens)) self::$tokens[$store] = [];
 			if(!array_key_exists($environment, self::$tokens[$store])) {
 				$creds = PDO::load(self::INI);
-				self::$tokens[$store][$environment] = $creds->prepare("
-					SELECT `token`
+				self::$tokens[$store][$environment] = get_object_vars($creds->prepare("
+					SELECT `token` as `eBayAuthToken`
 					FROM `{$creds->escape($environment)}`
 					WHERE `user` = :user
 					LIMIT 1
 				")->bind([
 					'user' => $store
-				])->execute()->get_results(0)->token;
+				])->execute()->get_results(0));
 			}
-			return ['eBayAuthToken' => self::$tokens[$store][$environment]];
+			return self::$tokens[$store][$environment];
 		}
 	}
 ?>
