@@ -54,7 +54,7 @@
 			$call_list = [
 				'AddFixedPriceItem' => 'AddFixedPriceItemRequest',
 				'GetOrdersRequest' => 'GetOrders',
-				'AddItemRequest' => 'AddItem'
+				'AddItem' => 'AddItemRequest'
 			];
 
 			if($sandbox) {
