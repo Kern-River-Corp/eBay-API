@@ -6,6 +6,7 @@
 	* @copyright 2014, Chris Zuber <chris@kernrivercorp.com>
 	* @package mother_brain
 	* @version 2014-11-14
+	* @link http://developer.ebay.com/devzone/xml/docs/reference/ebay/AddFixedPriceItem.html
 	 */
 
 	namespace eBay_API\Request;
