@@ -2,7 +2,7 @@
 	/**
 	 * Class with protected method for retrieving eBay credentials from a
 	 * database. Only accessible to \eBay_API_Call.
-	 * 
+	 *
 	 *  @author Chris Zuber
 	 *  @copyright 2014, Chris Zuber <chris@kernrivercorp.com>
 	 *  @package mother_brain
@@ -32,7 +32,7 @@
 		 * @return array               [$key => $value array with eBay API headers credential]
 		 */
 
-		protected static function fetch($store, $environment = 'production') {
+		public static function fetch($store, $environment = 'production') {
 			if(is_null(self::$credentials)) self::$credentials = [];
 			if(!array_key_exists($store, self::$credentials)) self::$credentials[$store] = [];
 			if(!array_key_exists($environment, self::$credentials[$store])) {

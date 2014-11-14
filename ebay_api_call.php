@@ -52,7 +52,7 @@
 			$boundary = 'MIME_boundary'
 		) {
 			$call_list = [
-				'AddFixedPriceItem' => 'BulkDataExchangeRequests',
+				'AddFixedPriceItem' => 'AddFixedPriceItemRequest',
 				'GetOrdersRequest' => 'GetOrders',
 				'AddItemRequest' => 'AddItem'
 			];
