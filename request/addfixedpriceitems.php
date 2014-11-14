@@ -8,8 +8,8 @@
 	* @version 2014-11-14
 	 */
 
-	namespace eBay_API;
-	class Add_Fixed_Price_Item extends eBay_API_Call {
+	namespace eBay_API\Request;
+	class AddFixedPriceItems extends \eBay_API\eBay_API_Call {
 		/**
 		 * Initialize parent and create request body
 		 *
