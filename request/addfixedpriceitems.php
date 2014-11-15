@@ -74,9 +74,6 @@
 
 			foreach($items as $item) {
 				$this->AddFixedPriceItemRequest([
-					'ErrorLanguage' => 'en_US',
-					'WarningLevel' => 'High',
-					'Version' => 583,
 					'Item' => $item
 				]);
 				$this->getElementsByTagName(
