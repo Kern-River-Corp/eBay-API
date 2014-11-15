@@ -39,17 +39,20 @@
 		 * @var \core\_pdo $creds [Database connection for retrieving credentials]
 		 */
 
+		const LEVEL = 583,
+			SITEID = 0,
+			URN = 'urn:ebay:apis:eBLBaseComponents',
+			CHARSET = 'UTF-8',
+			TYPE = 'text/xml',
+			BOUNDARY = 'MIME_boundary',
+			ERROR_LANG = 'en_US',
+			WARNING_LEVEL = 'High';
+
 		public function __construct(
 			$store,
 			$callname,
 			$sandbox = false,
-			$level = 583,
-			$siteID = 0,
-			$urn = 'urn:ebay:apis:eBLBaseComponents',
-			$verbose = false,
-			$charset = 'UTF-8',
-			$type = 'text/xml',
-			$boundary = 'MIME_boundary'
+			$verbose = false
 		) {
 			$call_list = [
 				'AddFixedPriceItem' => 'AddFixedPriceItemRequest',
@@ -71,16 +74,23 @@
 				array_merge(
 					Credentials::fetch($store, $environment),
 					[
-						'Content-Type' => "{$type}; boundary={$boundary}",
-						'X-EBAY-API-COMPATIBILITY-LEVEL' => $level,
+						'Content-Type' => $this::TYPE . '; boundary=' . $this::BOUNDARY,
+						'X-EBAY-API-COMPATIBILITY-LEVEL' => $this::LEVEL,
 						'X-EBAY-API-CALL-NAME' => $callname,
-						'X-EBAY-API-SITEID' => $siteID
+						'X-EBAY-API-SITEID' => $this::SITEID
 					]
 				),
 				(array_key_exists($callname, $call_list)) ? $call_list[$callname] : "{$callname}Request",
-				$urn,
-				$charset,
+				$this::URN,
+				$this::CHARSET,
 				$verbose
+			);
+			$this->ErrorLanguage(
+				$this::ERROR_LANG
+			)->WarningLevel(
+				$this::WARNING_LEVEL
+			)->Version(
+				$this::LEVEL
 			);
 		}
 	}
