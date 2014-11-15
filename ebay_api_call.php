@@ -46,7 +46,12 @@
 			TYPE = 'text/xml',
 			BOUNDARY = 'MIME_boundary',
 			ERROR_LANG = 'en_US',
-			WARNING_LEVEL = 'High';
+			WARNING_LEVEL = 'High',
+			MEASUREMENT_SYSTEM = 'English',
+			WEIGHT_UNIT_MAJOR = 'lb',
+			WEIGHT_UNIT_MINOR = 'oz',
+			CURRENCY_ID = 'USD';
+
 
 		public function __construct(
 			$store,
