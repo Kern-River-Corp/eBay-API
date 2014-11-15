@@ -72,12 +72,6 @@
 			}
 			$this->RequesterCredentials(
 				\eBay_API\Credentials::token($store, ($sandbox) ? 'sandbox' : 'production')
-			)->ErrorLanguage(
-				'en_US'
-			)->WarningLevel(
-				'High'
-			)->Version(
-				583
 			)->Item(
 				$item
 			);
