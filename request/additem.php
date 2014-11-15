@@ -14,7 +14,7 @@
 
 			$this->RequesterCredentials(
 					\eBay_API\Credentials::token($store, ($sandbox) ? 'sandbox' : 'production')
-			)->ItemSpecifics([
+			)/*->ItemSpecifics([
 				'NameValueList' => [
 					'Name' => 'name',
 					'Value' => 'value'
@@ -132,7 +132,7 @@ eot
 				'StoreCategoryID' => ''
 			])->Title(
 				''
-			);
+			)*/;
 		}
 	}
 ?>
