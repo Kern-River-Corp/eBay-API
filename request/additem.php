@@ -10,7 +10,7 @@
 	namespace eBay_API\Request;
 	class AddItem extends \eBay_API\eBay_API_Call {
 		public function __construct($store, array $item = null, $sandbox) {
-			parent::__construct($store, 'AddItem', $sandbox);
+			parent::__construct($store, ($sandbox) ? 'AddItem' : 'VerifyAddItem', $sandbox);
 
 			$this->RequesterCredentials(
 					\eBay_API\Credentials::token($store, ($sandbox) ? 'sandbox' : 'production')
@@ -54,6 +54,15 @@
 				'CategoryID' => ''
 			])->Quantity(
 				1
+			)->Description(
+				<<<eot
+				<h1>Description</h1>
+				<ul>
+					<li>
+						List Item
+					</li>
+				</ul>
+eot
 			)->ReturnPolicy([
 				'Description' => '',
 				'RefundOption' => '',
@@ -115,7 +124,7 @@
 				'ShippingIrregular' => '',
 				'ShippingPackage' => '',
 				'WeightMajor' => '',
-				'WeightMinor'
+				'WeightMinor' => ''
 			])->ShipToLocations(
 				''
 			)->Site(
