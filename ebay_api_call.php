@@ -50,6 +50,7 @@
 			MEASUREMENT_SYSTEM = 'English',
 			WEIGHT_UNIT_MAJOR = 'lb',
 			WEIGHT_UNIT_MINOR = 'oz',
+			LINEAR_UNIT = 'in',
 			CURRENCY_ID = 'USD';
 
 
