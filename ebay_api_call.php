@@ -57,7 +57,8 @@
 			$call_list = [
 				'AddFixedPriceItem' => 'AddFixedPriceItemRequest',
 				'GetOrders' => 'GetOrdersRequest',
-				'AddItem' => 'AddItemRequest'
+				'AddItem' => 'AddItemRequest',
+				'VerifyAddItem' => 'VerifyAddItemRequest'
 			];
 
 			if($sandbox) {
@@ -92,6 +93,15 @@
 			)->Version(
 				$this::LEVEL
 			);
+		}
+
+		public function Description($content) {
+			$parent = new \core\resources\XML_Node('Description');
+			$this->body->append($parent);
+			$content = str_replace(["\r", "\r\n", "\n", "\t"], null, $content);
+			$desc = $this->createCDATASection($content);
+			$parent->appendChild($desc);
+			return $this;
 		}
 	}
 ?>
