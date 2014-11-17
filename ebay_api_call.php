@@ -51,7 +51,8 @@
 			WEIGHT_UNIT_MAJOR = 'lb',
 			WEIGHT_UNIT_MINOR = 'oz',
 			LINEAR_UNIT = 'in',
-			CURRENCY_ID = 'USD';
+			CURRENCY_ID = 'USD',
+			DATE_FORMAT = 'c';
 
 
 		public function __construct(
@@ -109,5 +110,15 @@
 			$parent->appendChild($desc);
 			return $this;
 		}
+
+		public function ScheduleTime($datetime) {
+			$this->body->appendChild(new \DOMElement('ScheduleTime', $this->convert_date($datetime)));
+			return $this;
+		}
+
+		private function convert_date($datetime) {
+			return gmdate($this::DATE_FORMAT, strtotime($datetime));
+		}
+
 	}
 ?>
