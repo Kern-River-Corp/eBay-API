@@ -41,6 +41,7 @@
 
 		const LEVEL = 583,
 			SITEID = 0,
+			SITECODE = 'US',
 			URN = 'urn:ebay:apis:eBLBaseComponents',
 			CHARSET = 'UTF-8',
 			TYPE = 'text/xml',
