@@ -111,12 +111,12 @@
 			return $this;
 		}
 
-		public function ScheduleTime($datetime) {
+		public function ScheduleTime($datetime = null) {
 			$this->body->appendChild(new \DOMElement('ScheduleTime', $this->convert_date($datetime)));
 			return $this;
 		}
 
-		private function convert_date($datetime) {
+		private function convert_date($datetime = 'Now') {
 			return gmdate($this::DATE_FORMAT, strtotime($datetime));
 		}
 
