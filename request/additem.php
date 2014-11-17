@@ -16,12 +16,15 @@
 					\eBay_API\Credentials::token($store, ($sandbox) ? 'sandbox' : 'production')
 			);
 			$this->body = $this->body->appendChild(new \core\resources\XML_Node('Item'));
+			$this->Site(
+				$this::SITECODE
+			)->Currency(
+				$this::CURRENCY_ID
+			);
 		}
 
 		public function test_request() {
-			$this->Site(
-				$this::SITECODE
-			)->SKU(
+			$this->SKU(
 				'GT000849 SampleRequest'
 			)->StartPrice(
 				[
@@ -29,13 +32,13 @@
 					$this->attribute('currencyID', $this::CURRENCY_ID)
 				]
 			)->Title(
-				'Sampe AddItem request'
+				'Sample AddItem request'
 			)->ItemSpecifics([
 				'NameValueList' => [
 					'Name' => 'Color',
 					'Value' => 'Red'
 				],
-				'NameValueList' => [
+				'NameValueList ' => [
 					'Name' => 'Size',
 					'Value' => 'Large'
 				]
@@ -51,14 +54,12 @@
 				],
 				'DepositType' => 'DepositType',
 				'HoursToDeposit' => 'HoursToDeposit'
-			])*/->Currency(
-				$this::CURRENCY_ID
-			)->PaymentMethods(
-				'PayPal'
-			)->PayPalEmailAddress(
+			])*/->PaymentMethods(
+				'VisaMC'
+			)/*->PayPalEmailAddress(
 				'theshirtgeek@kernrivercorp.com'
-			)->PictureDetails([
-				'GalleryDuration' => 'Days_7',
+			)*/->PictureDetails([
+				//'GalleryDuration' => 'Days_7',
 				//'GalleryType' => 'Gallery',
 				//'GalleryURL' => 'http://www.socalrafting.com/shirtgeek/images/shirt.jpg',
 				'PhotoDisplay' => 'SuperSize',
