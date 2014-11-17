@@ -53,7 +53,7 @@
 			WEIGHT_UNIT_MINOR = 'oz',
 			LINEAR_UNIT = 'in',
 			CURRENCY_ID = 'USD',
-			DATE_FORMAT = 'c';
+			DATETIME_FORMAT = 'Y-m-d\TH:i:s.000\Z';
 
 
 		public function __construct(
@@ -118,7 +118,7 @@
 		}
 
 		private function convert_date($datetime = 'Now') {
-			return gmdate($this::DATE_FORMAT, strtotime($datetime));
+			return gmdate($this::DATETIME_FORMAT, strtotime($datetime));
 		}
 
 	}
