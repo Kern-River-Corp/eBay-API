@@ -121,5 +121,33 @@
 			return gmdate($this::DATETIME_FORMAT, strtotime($datetime));
 		}
 
+
+		public function return_policy($store) {
+			static $db = null;
+			if(is_null($db)) {
+				$db = \core\_pdo::load('inventory_data');
+				if($db->connected) {
+					$db->prepare("
+						SELECT
+							`Description`,
+							`RefundOption`,
+							`ReturnPolicycol`,
+							`ReturnsWithinOption`,
+							`ShippingCostPaidByOption`
+						FROM `ReturnPolicy`
+						WHERE `store` = :store
+						AND `channel` = 'ebay'
+						LIMIT 1
+					");
+				}
+			}
+			if($db->connected) {
+				return get_object_vars($db->bind([
+					'store' => $store
+				])->execute()->get_results(0));
+			}
+			else return 'Not connected';
+		}
+
 	}
 ?>
