@@ -143,52 +143,7 @@ eot
 				''
 			)->ShippingDetails([
 				//'MeasurementUnit' => $this::MEASUREMENT_SYSTEM,
-				'CalculatedShippingRate' => [
-					//'InternationalPackagingHandlingCosts' => 'InternationalPackagingHandlingCosts',
-					'OriginatingPostalCode' => 93240,
-					'PackageDepth' => [
-						4,
-						$this->create_attributes([
-							'unit' => $this::LINEAR_UNIT,
-							'measurementSystem' => $this::MEASUREMENT_SYSTEM
-						])
-					],
-					'PackageLength' => [
-						3,
-						$this->create_attributes([
-							'unit' => $this::LINEAR_UNIT,
-							'measurementSystem' => $this::MEASUREMENT_SYSTEM
-						])
-					],
-					'PackageWidth' => [
-						1.5,
-						$this->create_attributes([
-							'unit' => $this::LINEAR_UNIT,
-							'measurementSystem' => $this::MEASUREMENT_SYSTEM
-							])
-					],
-					/*'PackagingHandlingCosts' => [
-						'PackagingHandlingCosts',
-						$this->create_attributes([
-						'currencyID' => $this::CURRENCY_ID
-					])],*/
-					'ShippingIrregular' => 'false',
-					'ShippingPackage' => 'PackageThickEnvelope',
-					'WeightMajor' => [
-						1,
-						$this->create_attributes([
-							'unit' => $this::WEIGHT_UNIT_MAJOR,
-							'measurementSystem' => $this::MEASUREMENT_SYSTEM
-						])
-					],
-					'WeightMinor' => [
-						3,
-						$this->create_attributes([
-							'unit' => $this::WEIGHT_UNIT_MINOR,
-							'measurementSystem' => $this::MEASUREMENT_SYSTEM
-						])
-					]
-				],
+				'CalculatedShippingRate' => $this->package_info('LS', '3xl'),
 				'ShippingServiceOptions' => [
 					'FreeShipping' => 'false',
 					'ShippingService' => 'USPSPriorityFlatRateEnvelope',
