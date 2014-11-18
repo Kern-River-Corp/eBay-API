@@ -164,7 +164,7 @@
 				$db = \core\_pdo::load('inventory_data');
 				if($db->connected) {
 					$db->prepare("
-						SELECT
+					SELECT
 						`ReturnsAcceptedOption`,
 						`RefundOption`,
 						`ReturnsWithinOption`,
@@ -183,6 +183,71 @@
 				])->execute()->get_results(0));
 			}
 			else return 'Not connected';
+		}
+
+		public function package_info($type, $size) {
+			static $db = null;
+			if(is_null($db)) {
+				$db = \core\_pdo::load('inventory_data');
+				$db->prepare("
+					SELECT
+						`length`,
+						`width`,
+						`depth`,
+						`oz` AS `weight`,
+						`package`,
+						`irregular`
+					FROM `garment_weight_dimensions`
+					WHERE `type` = :type
+					AND `size` = :size
+				");
+			}
+			if($db->connected) {
+				$result = $db->bind([
+					'type' => $type,
+					'size' => $size
+				])->execute()->get_results(0);
+
+				return [
+					'PackageDepth' => [
+						(float)$result->depth,
+						$this->create_attributes([
+							'unit' => $this::LINEAR_UNIT,
+							'measurementSystem' => $this::MEASUREMENT_SYSTEM
+						])
+					],
+					'PackageLength' => [
+						(float)$result->length,
+						$this->create_attributes([
+							'unit' => $this::LINEAR_UNIT,
+							'measurementSystem' => $this::MEASUREMENT_SYSTEM
+						])
+					],
+					'PackageWidth' => [
+						(float)$result->width,
+						$this->create_attributes([
+							'unit' => $this::LINEAR_UNIT,
+							'measurementSystem' => $this::MEASUREMENT_SYSTEM
+						])
+					],
+					'WeightMajor' => [
+						floor($result->weight / 16),
+						$this->create_attributes([
+							'unit' => $this::WEIGHT_UNIT_MAJOR,
+							'measurementSystem' => $this::MEASUREMENT_SYSTEM
+						])
+					],
+					'WeightMinor' => [
+						$result->weight % 16,
+						$this->create_attributes([
+							'unit' => $this::WEIGHT_UNIT_MINOR,
+							'measurementSystem' => $this::MEASUREMENT_SYSTEM
+						])
+					],
+					'ShippingPackage' => $result->package,
+					'ShippingIrregular' => $result->irregular
+				];
+			}
 		}
 
 	}
