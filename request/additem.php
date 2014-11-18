@@ -58,46 +58,52 @@
 		}
 
 		public function test_request() {
+			$SKU = 'GT000849 SampleRequest';
+			$price = 10.37;
+			$title = 'Sample AddItem request';
+			$type = 'LS';
+			$color = 'Red';
+			$size = '3xl';
+			$pictureURL = 'http://www.socalrafting.com/shirtgeek/images/shirt.jpg';
+			$shippingCost = 4.95;
+			$description = <<<eot
+			<h1>Description</h1>
+			<ul>
+				<li>
+					List Item
+				</li>
+			</ul>
+eot;
+
 			$this->SKU(
-				'GT000849 SampleRequest'
+				$SKU
 			)->StartPrice(
 				[
-					10.37,
+					$price,
 					$this->attribute('currencyID', $this::CURRENCY_ID)
 				]
 			)->Title(
-				'Sample AddItem request'
+				$title
 			)->ItemSpecifics([
 				'NameValueList' => [
 					'Name' => 'Color',
-					'Value' => 'Red'
+					'Value' => $color
 				],
 				'NameValueList ' => [
 					'Name' => 'Size',
-					'Value' => 'Large'
+					'Value' => $size
 				]
 			])->ListingDuration(
 				'Days_10'
 			)->ListingType(
 				'Chinese'
-			)/*->PaymentDetails([
-				'DaysToFullPayment' => 'DaysToFullPayment',
-				'DepositAmount' => [
-					'DepositAmount',
-					$this->attribute('currencyID', $this::CURRENCY_ID)
-				],
-				'DepositType' => 'DepositType',
-				'HoursToDeposit' => 'HoursToDeposit'
-			])*/->PaymentMethods(
+			)->PaymentMethods(
 				'VisaMC'
 			)/*->PayPalEmailAddress(
 				'theshirtgeek@kernrivercorp.com'
 			)*/->PictureDetails([
-				//'GalleryDuration' => 'Days_7',
-				//'GalleryType' => 'Gallery',
-				//'GalleryURL' => 'http://www.socalrafting.com/shirtgeek/images/shirt.jpg',
 				'PhotoDisplay' => 'SuperSize',
-				'PictureURL' => 'http://www.socalrafting.com/shirtgeek/images/shirt.jpg'
+				'PictureURL' => $pictureURL
 			])->PostalCode(
 				93240
 			)->Country(
@@ -109,25 +115,12 @@
 			])->Quantity(
 				1
 			)->Description(
-				<<<eot
-				<h1>Description</h1>
-				<ul>
-					<li>
-						List Item
-					</li>
-				</ul>
-eot
+				$description
 			)->ConditionID(
 				1000
 			)->ReturnPolicy(
 				$this->return_policy()
-			/*[
-				'Description' => 'Description',
-				'RefundOption' => 'ReturnsAccepted',
-				'ReturnsAcceptedOption' => 'ReturnsAccepted',
-				'ReturnsWithinOption' => 'Days_14',
-				'ShippingCostPaidByOption' => 'Buyer'
-			]*/)->ScheduleTime(
+			)->ScheduleTime(
 				'+1 minute'
 			)->DispatchTimeMax(
 				3
@@ -142,17 +135,16 @@ eot
 			])->SellerInventoryID(
 				''
 			)->ShippingDetails([
-				//'MeasurementUnit' => $this::MEASUREMENT_SYSTEM,
-				'CalculatedShippingRate' => $this->package_info('LS', '3xl'),
+				'CalculatedShippingRate' => $this->package_info($type, $size),
 				'ShippingServiceOptions' => [
 					'FreeShipping' => 'false',
 					'ShippingService' => 'USPSPriorityFlatRateEnvelope',
 					'ShippingServiceAdditionalCost' => [
-						4.95,
+						$shippingCost,
 						$this->attribute('currencyID', $this::CURRENCY_ID)
 					],
 					'ShippingServiceCost' => [
-						4.95,
+						$shippingCost,
 						$this->attribute('currencyID', $this::CURRENCY_ID)
 					],
 					'ShippingServicePriority' => 1,
@@ -176,46 +168,9 @@ eot
 				],*/
 				'ShippingType' => 'FlatDomesticCalculatedInternational',
 				'GlobalShipping' => 'true'
-			])->ShippingPackageDetails([
-				'MeasurementUnit' => $this::MEASUREMENT_SYSTEM,
-				'PackageDepth' => [
-					4,
-					$this->create_attributes([
-						'unit' => $this::LINEAR_UNIT,
-						'measurementSystem' => $this::MEASUREMENT_SYSTEM
-					])
-				],
-				'PackageLength' => [
-					3,
-					$this->create_attributes([
-						'unit' => $this::LINEAR_UNIT,
-						'measurementSystem' => $this::MEASUREMENT_SYSTEM
-					])
-				],
-				'PackageWidth' => [
-					1.5,
-					$this->create_attributes([
-						'unit' => $this::LINEAR_UNIT,
-						'measurementSystem' => $this::MEASUREMENT_SYSTEM
-					])
-				],
-				'ShippingIrregular' => 'false',
-				'ShippingPackage' => 'PackageThickEnvelope',
-				'WeightMajor' => [
-					1,
-					$this->create_attributes([
-						'unit' => $this::WEIGHT_UNIT_MAJOR,
-						'measurementSystem' => $this::MEASUREMENT_SYSTEM
-					])
-				],
-				'WeightMinor' => [
-					3,
-					$this->create_attributes([
-						'unit' => $this::WEIGHT_UNIT_MINOR,
-						'measurementSystem' => $this::MEASUREMENT_SYSTEM
-					])
-				]
-			])->ShipToLocations(
+			])->ShippingPackageDetails(
+				$this->package_info($type, $size)
+			)->ShipToLocations(
 				'US'
 			);
 
