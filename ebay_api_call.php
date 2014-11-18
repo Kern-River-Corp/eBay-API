@@ -68,7 +68,8 @@
 				'AddFixedPriceItem' => 'AddFixedPriceItemRequest',
 				'GetOrders' => 'GetOrdersRequest',
 				'AddItem' => 'AddItemRequest',
-				'VerifyAddItem' => 'VerifyAddItemRequest'
+				'VerifyAddItem' => 'VerifyAddItemRequest',
+				'GetItem' => 'GetItemRequest'
 			];
 
 			if($sandbox) {
