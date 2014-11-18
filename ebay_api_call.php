@@ -55,6 +55,7 @@
 			CURRENCY_ID = 'USD',
 			DATETIME_FORMAT = 'Y-m-d\TH:i:s.000\Z';
 
+			protected $store;
 
 		public function __construct(
 			$store,
@@ -62,6 +63,7 @@
 			$sandbox = false,
 			$verbose = false
 		) {
+			$this->store = $store;
 			$call_list = [
 				'AddFixedPriceItem' => 'AddFixedPriceItemRequest',
 				'GetOrders' => 'GetOrdersRequest',
@@ -122,19 +124,19 @@
 		}
 
 
-		public function return_policy($store) {
+		public function return_policy($store = null) {
 			static $db = null;
 			if(is_null($db)) {
 				$db = \core\_pdo::load('inventory_data');
 				if($db->connected) {
 					$db->prepare("
 						SELECT
-							`Description`,
-							`RefundOption`,
-							`ReturnPolicycol`,
-							`ReturnsWithinOption`,
-							`ShippingCostPaidByOption`
-						FROM `ReturnPolicy`
+						`ReturnsAcceptedOption`,
+						`RefundOption`,
+						`ReturnsWithinOption`,
+						`Description`,
+						`ShippingCostPaidByOption`
+					FROM `inventory_data`.`ReturnPolicy`;
 						WHERE `store` = :store
 						AND `channel` = 'ebay'
 						LIMIT 1
@@ -143,7 +145,7 @@
 			}
 			if($db->connected) {
 				return get_object_vars($db->bind([
-					'store' => $store
+					'store' => (isset($store)) ? $store : $this->store
 				])->execute()->get_results(0));
 			}
 			else return 'Not connected';
