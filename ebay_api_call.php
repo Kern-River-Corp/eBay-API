@@ -57,9 +57,18 @@
 
 			protected $store;
 
+		/**
+		 * Create a new XML_API call with eBay specific data
+		 *
+		 * @param string $store    [Store name making request]
+		 * @param string $callname [Callname for request]
+		 * @param bool   $sandbox  [Production or sandbox environment]
+		 * @param bool   $verbose  [Use verbose in cURL request]
+		 */
+
 		public function __construct(
 			$store,
-			$callname,
+			$callname = null,
 			$sandbox = false,
 			$verbose = false
 		) {
@@ -97,6 +106,7 @@
 				$this::CHARSET,
 				$verbose
 			);
+
 			$this->ErrorLanguage(
 				$this::ERROR_LANG
 			)->WarningLevel(
@@ -105,6 +115,14 @@
 				$this::LEVEL
 			);
 		}
+
+		/**
+		 * Description may contain HTML, which needs to be contained within
+		 * CDATA in the XML request.
+		 *
+		 * @param string $content [HTML for Description]
+		 * @return \eBay_API\eBay_API_Call
+		 */
 
 		public function Description($content) {
 			$parent = new \core\resources\XML_Node('Description');
@@ -115,10 +133,25 @@
 			return $this;
 		}
 
+		/**
+		 * eBay times need to be converted into UFC formatted GMT times
+		 * Automatically set ScheduleTime to this
+		 *
+		 * @param string $datetime [Any date format that works with strtotime()]
+		 */
+
 		public function ScheduleTime($datetime = null) {
 			$this->body->appendChild(new \DOMElement('ScheduleTime', $this->convert_date($datetime)));
 			return $this;
 		}
+
+		/**
+		 * eBay times need to be converted into UFC formatted GMT times
+		 *
+		 * @param  string $datetime [Any date format that works with strtotime()]
+		 *
+		 * @return [string]           [Datetime in DATETIME_FORMAT]
+		 */
 
 		private function convert_date($datetime = 'Now') {
 			return gmdate($this::DATETIME_FORMAT, strtotime($datetime));
