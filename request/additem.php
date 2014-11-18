@@ -122,13 +122,13 @@
 eot
 			)->ConditionID(
 				1000
-			)->ReturnPolicy([
+			)/*->ReturnPolicy([
 				'Description' => 'Description',
 				'RefundOption' => 'ReturnsAccepted',
 				'ReturnsAcceptedOption' => 'ReturnsAccepted',
 				'ReturnsWithinOption' => 'Days_30',
 				'ShippingCostPaidByOption' => 'Buyer'
-			])->ScheduleTime(
+			])*/->ScheduleTime(
 				'19:00'
 			)->DispatchTimeMax(
 				3
@@ -337,14 +337,16 @@ eot
 eot
 			)->ConditionID(
 				1000
-			)->ReturnPolicy([
+			)->ReturnPolicy(
+				$this->return_policy()
+			/*[
 				'Description' => 'Description',
 				'RefundOption' => 'ReturnsAccepted',
 				'ReturnsAcceptedOption' => 'ReturnsAccepted',
 				'ReturnsWithinOption' => 'Days_14',
 				'ShippingCostPaidByOption' => 'Buyer'
-			])->ScheduleTime(
-				'19:00'
+			]*/)->ScheduleTime(
+				'23:45'
 			)->DispatchTimeMax(
 				3
 			)->SellerContactDetails([
