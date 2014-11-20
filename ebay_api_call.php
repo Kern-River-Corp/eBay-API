@@ -150,13 +150,20 @@
 		 *
 		 * @param  string $datetime [Any date format that works with strtotime()]
 		 *
-		 * @return [string]           [Datetime in DATETIME_FORMAT]
+		 * @return string           [Datetime in DATETIME_FORMAT]
 		 */
 
 		private function convert_date($datetime = 'Now') {
 			return gmdate($this::DATETIME_FORMAT, strtotime($datetime));
 		}
 
+		/**
+		 * [return_policy description]
+		 *
+		 * @param  string $store [Name of store to get return policy for]
+		 *
+		 * @return array        [description]
+		 */
 
 		public function return_policy($store = null) {
 			static $db = null;
@@ -184,6 +191,15 @@
 			}
 			else return 'Not connected';
 		}
+
+		/**
+		 * [package_info description]
+		 *
+		 * @param  string $type [description]
+		 * @param  string $size [description]
+		 *
+		 * @return array        [description]
+		 */
 
 		public function package_info($type, $size) {
 			static $db = null;
@@ -250,5 +266,28 @@
 			}
 		}
 
+		/**
+		 * Get the CategoryID for listing on eBay
+		 *
+		 * @param string $name  [code for the name. E.G. LS for Long Sleeve]
+		 * @return array        ['CategoryID' => $CategoryID]
+		 */
+
+		public function getCategoryID($name) {
+			static $db = null;
+			if(is_null($db)){
+				$db = \core\_pdo::load('inventory_data');
+				$db->prepare("
+					SELECT `CategoryID`
+					FROM `categories`
+					WHERE `name` = :name
+					LIMIT 1
+				");
+			}
+
+			return get_object_vars($db->bind([
+				'name' => $name
+			])->execute()->get_results(0));
+		}
 	}
 ?>
