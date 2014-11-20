@@ -11,7 +11,7 @@
 	use \core\resources\XML_Node as XML_Node;
 	use \core\_pdo as PDO;
 	class AddItem extends \eBay_API\eBay_API_Call {
-		public function __construct($store, $sandbox) {
+		public function __construct($store, $sandbox = false) {
 			parent::__construct($store, ($sandbox) ? 'AddItem' : 'VerifyAddItem', $sandbox);
 
 			$this->RequesterCredentials(
