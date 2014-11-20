@@ -220,11 +220,11 @@
 			}
 			if($db->connected) {
 				$result = $db->bind([
-					'type' => $type,
-					'size' => $size
+					'type' => trim($type),
+					'size' => trim($size)
 				])->execute()->get_results(0);
 
-				return (empty($results)) ? false : [
+				return (empty($result)) ? false : [
 					'PackageDepth' => [
 						(float)$result->depth,
 						$this->create_attributes([
