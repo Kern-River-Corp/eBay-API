@@ -224,7 +224,7 @@
 					'size' => $size
 				])->execute()->get_results(0);
 
-				return [
+				return (empty($results)) ? false : [
 					'PackageDepth' => [
 						(float)$result->depth,
 						$this->create_attributes([
