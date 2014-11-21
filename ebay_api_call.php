@@ -78,7 +78,8 @@
 				'GetOrders' => 'GetOrdersRequest',
 				'AddItem' => 'AddItemRequest',
 				'VerifyAddItem' => 'VerifyAddItemRequest',
-				'GetItem' => 'GetItemRequest'
+				'GetItem' => 'GetItemRequest',
+				'UploadSiteHostedPictures' => 'UploadSiteHostedPicturesRequest'
 			];
 
 			if($sandbox) {
