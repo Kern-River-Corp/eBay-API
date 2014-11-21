@@ -10,9 +10,9 @@
 	 */
 
 	namespace eBay_API;
-	use \core\_pdo as PDO;
+	use \core\PDO as PDO;
 
-	class Credentials extends eBay_API_Call {
+	abstract class Credentials {
 		private static $credentials = null, $tokens = null;
 		const INI = 'ebay_api';
 
@@ -32,7 +32,7 @@
 		 * @return array               [$key => $value array with eBay API headers credential]
 		 */
 
-		protected static function fetch($store, $environment = 'production') {
+		public static function fetch($store, $environment = 'production') {
 			if(is_null(self::$credentials)) self::$credentials = [];
 			if(!array_key_exists($store, self::$credentials)) self::$credentials[$store] = [];
 			if(!array_key_exists($environment, self::$credentials[$store])) {
