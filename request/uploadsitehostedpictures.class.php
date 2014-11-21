@@ -25,34 +25,11 @@
 		const VERB = 'UploadSiteHostedPictures';
 		const PICTURESET = 'Supersize';
 		const BOUNDARY = 'MIME_boundary';
+		const MIN_HEIGHT = 1000;
+		const MIN_WIDTH = 1000;
 
-		private $requestToken, $devID, $appID, $certID, $XML;
+		private $XML;
 		public $serverUrl;
-		private static $instances = null;
-
-		/**
-		* Static method for constructing class.
-		*
-		* Checks if already constructing for $store. If not constructed,
-		* constucts it and saves to a static array.
-		*
-		* @param string $store
-		* @param boolean $sandbox
-		* @param string $con
-		* @return upload_to_ebay Class/Object
-		*/
-
-		public static function load($store = null, $sandbox = false, $con = 'ebay_api') {
-			if(!is_array(self::$instances)) {
-				self::$instances = [];
-			}
-
-			if(!array_key_exists(self::$instances, $store)) {
-				self::$instances[$store] = new self($store, $sandbox, $con);
-			}
-
-			return self::$instances[$store];
-		}
 
 		/**
 		* Class constructor
@@ -65,33 +42,9 @@
 		*/
 
 		public function __construct($store = null, $sandbox = false, $con = 'ebay_api') {
-			$ebay_creds = \core\PDO::load($con);
-			$table = ($sandbox) ? '`sandbox`' : '`production`';
-
-			/**
-			* Get eBay credentials from database
-			*/
-
-			foreach(get_object_vars(
-				$ebay_creds->prepare("
-					SELECT
-						`dev_key` AS `devID`,
-						`app_key` AS `appID`,
-						`cert_id` AS `certID`,
-						`token` AS `requestToken`
-					FROM {$table}
-					WHERE `user` = :store
-				")->bind([
-					'store' => $store
-				])->execute()->get_results(0)
-			) as $key => $value) {
-				$this->$key = $value;
-			}
-
-			/**
-			* serverURL is different for production/sandbox
-			*/
-
+			$this->store = $store;
+			$this->sandbox = $sandbox;
+			$this->con = $con;
 			$this->serverUrl = ($sandbox) ? 'https://api.sandbox.ebay.com/ws/api.dll' : 'https://api.ebay.com/ws/api.dll';
 		}
 
@@ -102,14 +55,14 @@
 			$root->appendChild(new \DOMElement('Version', $this::LEVEL));
 			$root->appendChild(new \DOMElement('PictureName', '$this::LEVEL'));
 			$root->appendChild(new \DOMElement('PictureSet', $this::PICTURESET));
-			$creds = $root->appendChild(new \DOMElement('PictureSet'));
-			/*$xmlReq = '<?xml version="1.0" encoding="utf-8"?>' . PHP_EOL;
-			$xmlReq .= '<' . $this::VERB . 'Request xmlns="urn:ebay:apis:eBLBaseComponents">' . PHP_EOL;
-			$xmlReq .= "<Version>{$this::LEVEL}</Version>" . PHP_EOL;
-			$xmlReq .= "<PictureName>$picNameIn</PictureName>" . PHP_EOL;
-			$xmlReq .= "<PictureSet>Supersize</PictureSet>" . PHP_EOL;
-			$xmlReq .= "<RequesterCredentials><eBayAuthToken>$this->requestToken</eBayAuthToken></RequesterCredentials>" . PHP_EOL;
-			$xmlReq .= '</' . $this::VERB . 'Request>';*/
+			$creds = $root->appendChild(new \DOMElement('RequesterCredentials'));
+			$creds->appendChild(new \DOMElement(
+				'eBayAuthToken',
+				\eBay_API\Credentials::token(
+					$this->store,
+					($this->sandbox) ? 'sandbox' : 'production'
+				)['eBayAuthToken'])
+			);
 			return $this->XML->saveXML();
 		}
 
