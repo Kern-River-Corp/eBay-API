@@ -9,7 +9,7 @@
 
 	namespace eBay_API\Request;
 	use \core\resources\XML_Node as XML_Node;
-	use \core\_pdo as PDO;
+	use \core\PDO as PDO;
 	class GetItem extends \eBay_API\eBay_API_Call {
 		/**
 		 * Construct a new eBay API request of the correct type

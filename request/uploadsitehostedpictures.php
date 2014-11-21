@@ -13,12 +13,12 @@
 	* @license /LICENSE
 	* @package mother_brain
 	* @version 2014-11-21
-	* @uses _pdo
+	* @uses PDO
 	*/
 
 	namespace eBay_API\Request;
 	class UploadSiteHostedPictures {
-		const NAMESPACE = 'urn:ebay:apis:eBLBaseComponents';
+		const NS = 'urn:ebay:apis:eBLBaseComponents';
 		const CHARSET = 'UTF-8';
 		const LEVEL = 517;
 		const SITEID = 0;
@@ -65,7 +65,7 @@
 		*/
 
 		public function __construct($store = null, $sandbox = false, $con = 'ebay_api') {
-			$ebay_creds = \core\_pdo::load($con);
+			$ebay_creds = \core\PDO::load($con);
 			$table = ($sandbox) ? '`sandbox`' : '`production`';
 
 			/**
@@ -97,7 +97,7 @@
 
 		public function bulidXML() {
 			$this->XML = new \DOMDocument('1.0', $this::CHARSET);
-			$root = new \DOMElement("{$this::VERB}Request", null, $this::NAMESPACE);
+			$root = new \DOMElement($this::VERB . 'Request', null, $this::NS);
 			$this->XML->appendChild($root);
 			$root->appendChild(new \DOMElement('Version', $this::LEVEL));
 			$root->appendChild(new \DOMElement('PictureName', '$this::LEVEL'));
@@ -141,7 +141,6 @@
 				$xmlReq .= "<PictureSet>Supersize</PictureSet>" . PHP_EOL;
 				$xmlReq .= "<RequesterCredentials><eBayAuthToken>$this->requestToken</eBayAuthToken></RequesterCredentials>" . PHP_EOL;
 				$xmlReq .= '</' . $this::VERB . 'Request>';*/
-				$XML = new \DOMDocument()
 
 				//$CRLF = "\r\n";
 

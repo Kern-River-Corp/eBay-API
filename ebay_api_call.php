@@ -36,7 +36,7 @@
 		 * @var string $environment [Based on $sandbox, will be either 'production' or 'sandbox']
 		 * @var string $url [URL to send request to, based on $sandbox]
 		 * @var array $call_list [key => value array, mapping callnames to root elements]
-		 * @var \core\_pdo $creds [Database connection for retrieving credentials]
+		 * @var \core\PDO $creds [Database connection for retrieving credentials]
 		 */
 
 		const LEVEL = 583,
@@ -169,7 +169,7 @@
 		public function return_policy($store = null) {
 			static $db = null;
 			if(is_null($db)) {
-				$db = \core\_pdo::load('inventory_data');
+				$db = \core\PDO::load('inventory_data');
 				if($db->connected) {
 					$db->prepare("
 					SELECT
@@ -205,7 +205,7 @@
 		public function package_info($type, $size) {
 			static $db = null;
 			if(is_null($db)) {
-				$db = \core\_pdo::load('inventory_data');
+				$db = \core\PDO::load('inventory_data');
 				$db->prepare("
 					SELECT
 						`length`,
@@ -277,7 +277,7 @@
 		public function getCategoryID($name) {
 			static $db = null;
 			if(is_null($db)){
-				$db = \core\_pdo::load('inventory_data');
+				$db = \core\PDO::load('inventory_data');
 				$db->prepare("
 					SELECT `CategoryID`
 					FROM `categories`
