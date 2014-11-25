@@ -18,6 +18,8 @@
 	*/
 
 	namespace eBay_API;
+	use \core\PDO as PDO;
+	use \core\resources\XML_Node as Node;
 	class eBay_API_Call extends \core\XML_API_Call {
 		/**
 		 * Dynamically construct an XML_API_Call with eBay specific paramaters
@@ -126,7 +128,7 @@
 		 */
 
 		public function Description($content) {
-			$parent = new \core\resources\XML_Node('Description');
+			$parent = Node('Description');
 			$this->body->append($parent);
 			$content = str_replace(["\r", "\r\n", "\n", "\t"], null, $content);
 			$desc = $this->createCDATASection($content);
@@ -167,7 +169,7 @@
 		 */
 
 		public function return_policy($store = null) {
-			static $db = null;
+			/*static $db = null;
 			if(is_null($db)) {
 				$db = \core\PDO::load('inventory_data');
 				if($db->connected) {
@@ -190,7 +192,21 @@
 					'store' => (isset($store)) ? $store : $this->store
 				])->execute()->get_results(0));
 			}
-			else return 'Not connected';
+			else return 'Not connected';*/
+			return get_object_vars(PDO::load('inventory_data')->prepare("
+			SELECT
+				`ReturnsAcceptedOption`,
+				`RefundOption`,
+				`ReturnsWithinOption`,
+				`Description`,
+				`ShippingCostPaidByOption`
+			FROM `inventory_data`.`ReturnPolicy`;
+				WHERE `store` = :store
+				AND `channel` = 'ebay'
+				LIMIT 1
+			")->bind([
+				'store' => (isset($store)) ? $store : $this->store
+			])->execute()->get_results(0));
 		}
 
 		/**
@@ -205,7 +221,7 @@
 		public function package_info($type, $size) {
 			static $db = null;
 			if(is_null($db)) {
-				$db = \core\PDO::load('inventory_data');
+				$db = PDO::load('inventory_data');
 				$db->prepare("
 					SELECT
 						`length`,
@@ -289,7 +305,7 @@
 			return get_object_vars($db->bind([
 				'name' => $name
 			])->execute()->get_results(0));*/
-			return get_object_vars(\core\PDO::load('inventory_data')->prepare("
+			return get_object_vars(PDO::load('inventory_data')->prepare("
 				SELECT `CategoryID`
 				FROM `categories`
 				WHERE `name` = :name
