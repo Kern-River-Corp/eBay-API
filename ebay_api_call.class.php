@@ -170,30 +170,6 @@
 		 */
 
 		public function return_policy($store = null) {
-			/*static $db = null;
-			if(is_null($db)) {
-				$db = \core\PDO::load('inventory_data');
-				if($db->connected) {
-					$db->prepare("
-					SELECT
-						`ReturnsAcceptedOption`,
-						`RefundOption`,
-						`ReturnsWithinOption`,
-						`Description`,
-						`ShippingCostPaidByOption`
-					FROM `inventory_data`.`ReturnPolicy`;
-						WHERE `store` = :store
-						AND `channel` = 'ebay'
-						LIMIT 1
-					");
-				}
-			}
-			if($db->connected) {
-				return get_object_vars($db->bind([
-					'store' => (isset($store)) ? $store : $this->store
-				])->execute()->get_results(0));
-			}
-			else return 'Not connected';*/
 			return get_object_vars(PDO::load('inventory_data')->prepare("
 			SELECT
 				`ReturnsAcceptedOption`,
@@ -288,20 +264,6 @@
 		 */
 
 		public function getCategoryID($name) {
-			/*static $db = null;
-			if(is_null($db)){
-				$db = \core\PDO::load('inventory_data');
-				$db->prepare("
-					SELECT `CategoryID`
-					FROM `categories`
-					WHERE `name` = :name
-					LIMIT 1
-				");
-			}
-
-			return get_object_vars($db->bind([
-				'name' => $name
-			])->execute()->get_results(0));*/
 			return get_object_vars(PDO::load('inventory_data')->prepare("
 				SELECT `CategoryID`
 				FROM `categories`
