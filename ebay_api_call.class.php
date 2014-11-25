@@ -275,7 +275,7 @@
 		 */
 
 		public function getCategoryID($name) {
-			static $db = null;
+			/*static $db = null;
 			if(is_null($db)){
 				$db = \core\PDO::load('inventory_data');
 				$db->prepare("
@@ -287,6 +287,14 @@
 			}
 
 			return get_object_vars($db->bind([
+				'name' => $name
+			])->execute()->get_results(0));*/
+			return get_object_vars(\core\PDO::load('inventory_data')->prepare("
+				SELECT `CategoryID`
+				FROM `categories`
+				WHERE `name` = :name
+				LIMIT 1
+			")->bind([
 				'name' => $name
 			])->execute()->get_results(0));
 		}
