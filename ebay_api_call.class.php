@@ -220,24 +220,9 @@
 		 */
 
 		public function package_info($type, $size) {
-			/*static $db = null;
-			if(is_null($db)) {
-				$db = PDO::load('inventory_data');
-				$db->prepare("
-					SELECT
-						`length`,
-						`width`,
-						`depth`,
-						`oz` AS `weight`,
-						`package`,
-						`irregular`
-					FROM `garment_weight_dimensions`
-					WHERE `type` = :type
-					AND `size` = :size
-				");
-			}*/
+			$db = PDO::load('inventory_data');
 			if($db->connected) {
-				$result = PDO::load('inventory_data')->prepare("
+				$result = $db->prepare("
 					SELECT
 						`length`,
 						`width`,
