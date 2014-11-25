@@ -20,6 +20,7 @@
 	namespace eBay_API;
 	use \core\PDO as PDO;
 	use \core\resources\XML_Node as Node;
+	use \DOMElement as Element;
 	class eBay_API_Call extends \core\XML_API_Call {
 		/**
 		 * Dynamically construct an XML_API_Call with eBay specific paramaters
@@ -128,7 +129,7 @@
 		 */
 
 		public function Description($content) {
-			$parent = Node('Description');
+			$parent = new Node('Description');
 			$this->body->append($parent);
 			$content = str_replace(["\r", "\r\n", "\n", "\t"], null, $content);
 			$desc = $this->createCDATASection($content);
@@ -144,7 +145,7 @@
 		 */
 
 		public function ScheduleTime($datetime = null) {
-			$this->body->appendChild(new \DOMElement('ScheduleTime', $this->convert_date($datetime)));
+			$this->body->appendChild(new Element('ScheduleTime', $this->convert_date($datetime)));
 			return $this;
 		}
 
@@ -219,7 +220,7 @@
 		 */
 
 		public function package_info($type, $size) {
-			static $db = null;
+			/*static $db = null;
 			if(is_null($db)) {
 				$db = PDO::load('inventory_data');
 				$db->prepare("
@@ -234,9 +235,20 @@
 					WHERE `type` = :type
 					AND `size` = :size
 				");
-			}
+			}*/
 			if($db->connected) {
-				$result = $db->bind([
+				$result = PDO::load('inventory_data')->prepare("
+					SELECT
+						`length`,
+						`width`,
+						`depth`,
+						`oz` AS `weight`,
+						`package`,
+						`irregular`
+					FROM `garment_weight_dimensions`
+					WHERE `type` = :type
+					AND `size` = :size
+				")->bind([
 					'type' => trim($type),
 					'size' => trim($size)
 				])->execute()->get_results(0);
