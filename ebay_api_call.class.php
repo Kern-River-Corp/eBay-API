@@ -273,5 +273,22 @@
 				'name' => $name
 			])->execute()->get_results(0));
 		}
+
+		/**
+		 * Converts CategoryID into its name
+		 * @param int $id [CategoryID from eBay]
+		 * @return string
+		 */
+
+		public function getCategoryName($id) {
+			return PDO::load('inventory_data')->prepare("
+				SELECT `name`
+				FROM `categories`
+				WHERE `CategoryID` = :id
+				LIMIT 1
+			")->bind([
+				'id' => $id
+			])->execute()->get_results(0)->name;
+		}
 	}
 ?>
