@@ -17,7 +17,7 @@
 		const PRODUCTION_REQUEST = 'AddItem';
 
 		public function __construct($store, $sandbox = false) {
-			parent::__construct($store, ($sandbox) ? $this::PRODUCTION_REQUEST : $this::SANDBOX_REQUEST, $sandbox);
+			parent::__construct($store, ($sandbox) ? $this::SANDBOX_REQUEST : $this::PRODUCTION_REQUEST, $sandbox);
 
 			$this->RequesterCredentials(
 					Credentials::token($store, ($sandbox) ? 'sandbox' : 'production')
