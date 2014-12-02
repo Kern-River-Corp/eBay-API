@@ -281,14 +281,21 @@
 		 */
 
 		public function getCategoryName($id) {
-			return PDO::load('inventory_data')->prepare("
+			$results = PDO::load('inventory_data')->prepare("
 				SELECT `name`
 				FROM `categories`
 				WHERE `CategoryID` = :id
 				LIMIT 1
 			")->bind([
 				'id' => $id
-			])->execute()->get_results(0)->name;
+			])->execute()->get_results(0);
+
+			if(is_object($results) and isset($results->name)) {
+				return $results->name;
+			}
+			else {
+				return null;
+			}
 		}
 	}
 ?>
