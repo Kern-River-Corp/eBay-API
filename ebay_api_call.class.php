@@ -196,64 +196,61 @@
 		 */
 
 		public function package_info($type, $size) {
-			$db = PDO::load('inventory_data');
-			if($db->connected) {
-				$result = $db->prepare("
-					SELECT
-						`length`,
-						`width`,
-						`depth`,
-						`oz` AS `weight`,
-						`package`,
-						`irregular`
-					FROM `garment_weight_dimensions`
-					WHERE `type` = :type
-					AND `size` = :size
-				")->bind([
-					'type' => trim($type),
-					'size' => trim($size)
-				])->execute()->get_results(0);
+			$result = PDO::load('inventory_data')->prepare("
+				SELECT
+					`length`,
+					`width`,
+					`depth`,
+					`oz` AS `weight`,
+					`package`,
+					`irregular`
+				FROM `garment_weight_dimensions`
+				WHERE `type` = :type
+				AND `size` = :size
+			")->bind([
+				'type' => trim($type),
+				'size' => trim($size)
+			])->execute()->get_results(0);
 
-				return (empty($result)) ? false : [
-					'PackageDepth' => [
-						(float)$result->depth,
-						$this->create_attributes([
-							'unit' => $this::LINEAR_UNIT,
-							'measurementSystem' => $this::MEASUREMENT_SYSTEM
-						])
-					],
-					'PackageLength' => [
-						(float)$result->length,
-						$this->create_attributes([
-							'unit' => $this::LINEAR_UNIT,
-							'measurementSystem' => $this::MEASUREMENT_SYSTEM
-						])
-					],
-					'PackageWidth' => [
-						(float)$result->width,
-						$this->create_attributes([
-							'unit' => $this::LINEAR_UNIT,
-							'measurementSystem' => $this::MEASUREMENT_SYSTEM
-						])
-					],
-					'WeightMajor' => [
-						floor($result->weight / 16),
-						$this->create_attributes([
-							'unit' => $this::WEIGHT_UNIT_MAJOR,
-							'measurementSystem' => $this::MEASUREMENT_SYSTEM
-						])
-					],
-					'WeightMinor' => [
-						$result->weight % 16,
-						$this->create_attributes([
-							'unit' => $this::WEIGHT_UNIT_MINOR,
-							'measurementSystem' => $this::MEASUREMENT_SYSTEM
-						])
-					],
-					'ShippingPackage' => $result->package,
-					'ShippingIrregular' => $result->irregular
-				];
-			}
+			return (empty($result)) ? false : [
+				'PackageDepth' => [
+					(float)$result->depth,
+					$this->create_attributes([
+						'unit' => $this::LINEAR_UNIT,
+						'measurementSystem' => $this::MEASUREMENT_SYSTEM
+					])
+				],
+				'PackageLength' => [
+					(float)$result->length,
+					$this->create_attributes([
+						'unit' => $this::LINEAR_UNIT,
+						'measurementSystem' => $this::MEASUREMENT_SYSTEM
+					])
+				],
+				'PackageWidth' => [
+					(float)$result->width,
+					$this->create_attributes([
+						'unit' => $this::LINEAR_UNIT,
+						'measurementSystem' => $this::MEASUREMENT_SYSTEM
+					])
+				],
+				'WeightMajor' => [
+					floor($result->weight / 16),
+					$this->create_attributes([
+						'unit' => $this::WEIGHT_UNIT_MAJOR,
+						'measurementSystem' => $this::MEASUREMENT_SYSTEM
+					])
+				],
+				'WeightMinor' => [
+					$result->weight % 16,
+					$this->create_attributes([
+						'unit' => $this::WEIGHT_UNIT_MINOR,
+						'measurementSystem' => $this::MEASUREMENT_SYSTEM
+					])
+				],
+				'ShippingPackage' => $result->package,
+				'ShippingIrregular' => $result->irregular
+			];
 		}
 
 		/**
