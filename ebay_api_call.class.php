@@ -273,22 +273,25 @@
 
 		/**
 		 * Converts CategoryID into its name
-		 * @param int $id [CategoryID from eBay]
-		 * @return string
+		 * @param int $id [StoreCategoryID from eBay]
+		 * @return stdClass
 		 */
 
-		public function getCategoryName($id) {
+		public function getCategory($id) {
 			$results = PDO::load('inventory_data')->prepare("
-				SELECT `name`
+				SELECT
+					`name` AS `Name`,
+					`code` AS `Code`,
+					`CategoryID`
 				FROM `categories`
-				WHERE `CategoryID` = :id
+				WHERE `StoreCategoryID` = :id
 				LIMIT 1
 			")->bind([
 				'id' => $id
 			])->execute()->get_results(0);
 
-			if(is_object($results) and isset($results->name)) {
-				return $results->name;
+			if(is_object($results)) {
+				return $results;
 			}
 			else {
 				return null;
