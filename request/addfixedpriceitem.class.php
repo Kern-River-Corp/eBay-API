@@ -19,10 +19,11 @@
 		 * @param bool $sandbox   [Sandbox | Production environment]
 		 */
 
+		const CALLNAME = 'AddFixedPriceItem';
+
 		public function __construct($store, array $item = null, $sandbox = false) {
 			parent::__construct(
 				$store,
-				'AddFixedPriceItem',
 				$sandbox
 			);
 

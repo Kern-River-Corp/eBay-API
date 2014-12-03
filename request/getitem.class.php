@@ -18,8 +18,10 @@
 		 * @param bool   $sandbox [Production or sandbox environment]
 		 */
 
+		const CALLNAME = 'GetItem';
+
 		public function __construct($store, $sandbox = false) {
-			parent::__construct($store, 'GetItem', $sandbox);
+			parent::__construct($store, $sandbox);
 
 			$this->RequesterCredentials(
 					\eBay_API\Credentials::token($store, ($sandbox) ? 'sandbox' : 'production')

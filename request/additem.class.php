@@ -13,10 +13,10 @@
 
 	class AddItem extends \eBay_API\eBay_API_Call {
 		const PHOTODISPLAY = 'SuperSize';
-		const CALL_NAME = 'AddItem';
+		const CALLNAME = 'AddItem';
 
 		public function __construct($store, $sandbox = false) {
-			parent::__construct($store, $this::CALL_NAME, $sandbox);
+			parent::__construct($store, $sandbox);
 
 			$this->RequesterCredentials(
 					Credentials::token($store, ($sandbox) ? 'sandbox' : 'production')

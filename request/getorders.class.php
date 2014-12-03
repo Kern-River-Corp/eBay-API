@@ -22,6 +22,8 @@
 		 * @return array         [Array of orders]
 		*/
 
+		const CALLNAME = 'GetOrders';
+
 		public function __construct(
 			$store,
 			array $selectors = null,
@@ -30,7 +32,7 @@
 			$page = 1,
 			$sandbox = false
 		) {
-			parent::__construct($store, 'GetOrders', $sandbox);
+			parent::__construct($store, $sandbox);
 			if(is_null($selectors) or !is_array($selectors)) {
 				$selectors = [
 					'HasMoreOrders',
