@@ -19,7 +19,7 @@
 			parent::__construct($store, $sandbox);
 
 			$this->RequesterCredentials(
-					Credentials::token($store, ($sandbox) ? 'sandbox' : 'production')
+				Credentials::token($this->store, $this->environment)
 			);
 			$this->body = $this->body->appendChild(new XML_Node('Item'));
 			$this->Site(

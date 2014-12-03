@@ -8,8 +8,7 @@
 	*/
 
 	namespace eBay_API\Request;
-	use \core\resources\XML_Node as XML_Node;
-	use \core\PDO as PDO;
+	use \eBay_API\Credentials as Credentials;
 	class GetItem extends \eBay_API\eBay_API_Call {
 		/**
 		 * Construct a new eBay API request of the correct type
@@ -24,7 +23,7 @@
 			parent::__construct($store, $sandbox);
 
 			$this->RequesterCredentials(
-					\eBay_API\Credentials::token($store, ($sandbox) ? 'sandbox' : 'production')
+				Credentials::token($this->store, $this->environment)
 			);
 		}
 	}

@@ -8,6 +8,7 @@
 	 */
 
 	namespace eBay_API\Request;
+	use \eBay_API\Credentials as Credentials;
 	class GetOrders extends \eBay_API\eBay_API_Call {
 		/**
 		 * Get all items sold in $store since $since in $length seconds
@@ -74,7 +75,7 @@
 			}
 
 			$this->RequesterCredentials(
-				\eBay_API\Credentials::token($store, ($sandbox) ? 'sandbox' : 'production')
+			Credentials::token($this->store, $this->environment)
 			)->CreateTimeFrom(
 				date('Y-m-d', strtotime("-{$days} day", strtotime($date))) . 'T00:00:00.000Z'
 			)->CreateTimeTo(

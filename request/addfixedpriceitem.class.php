@@ -10,6 +10,7 @@
 	 */
 
 	namespace eBay_API\Request;
+	use \eBay_API\Credentials as Credentials;
 	class AddFixedPriceItem extends \eBay_API\eBay_API_Call {
 		/**
 		 * Initialize parent and create request body
@@ -72,7 +73,7 @@
 				];
 			}
 			$this->RequesterCredentials(
-				\eBay_API\Credentials::token($store, ($sandbox) ? 'sandbox' : 'production')
+				Credentials::token($this->store, $this->environment)
 			)->Item(
 				$item
 			);
