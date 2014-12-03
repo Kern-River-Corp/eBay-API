@@ -1,0 +1,11 @@
+*~
+*.bak
+*.save
+*.gpg
+*.pgp
+*.log
+*.orig
+*BACKUP*
+*BASE*
+*LOCAL*
+*REMOTE*
