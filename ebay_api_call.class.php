@@ -21,7 +21,8 @@
 	use \core\PDO as PDO;
 	use \core\resources\XML_Node as Node;
 	use \DOMElement as Element;
-	class eBay_API_Call extends \core\XML_API_Call {
+	abstract class eBay_API_Call extends \core\XML_API_Call {
+		use \eBay_API\Resources;
 		/**
 		 * Dynamically construct an XML_API_Call with eBay specific paramaters
 		 *
@@ -56,9 +57,11 @@
 			WEIGHT_UNIT_MINOR = 'oz',
 			LINEAR_UNIT = 'in',
 			CURRENCY_ID = 'USD',
-			DATETIME_FORMAT = 'Y-m-d\TH:i:s.000\Z';
+			DATETIME_FORMAT = 'Y-m-d\TH:i:s.000\Z',
+			SANDBOX_URL = 'https://api.sandbox.ebay.com/ws/api.dll',
+			PRODUCTION_URL = 'https://api.ebay.com/ws/api.dll';
 
-			protected $store;
+			protected $store, $environment, $sandbox;
 
 		/**
 		 * Create a new XML_API call with eBay specific data
@@ -71,41 +74,17 @@
 
 		public function __construct(
 			$store,
-			$callname = null,
 			$sandbox = false,
 			$verbose = false
 		) {
 			$this->store = $store;
-			$call_list = [
-				'AddFixedPriceItem' => 'AddFixedPriceItemRequest',
-				'GetOrders' => 'GetOrdersRequest',
-				'AddItem' => 'AddItemRequest',
-				'VerifyAddItem' => 'VerifyAddItemRequest',
-				'GetItem' => 'GetItemRequest',
-				'UploadSiteHostedPictures' => 'UploadSiteHostedPicturesRequest'
-			];
-
-			if($sandbox) {
-				$environment = 'sandbox';
-				$url = 'https://api.sandbox.ebay.com/ws/api.dll';
-			}
-			else {
-				$environment = 'production';
-				$url = 'https://api.ebay.com/ws/api.dll';
-			}
+			$this->sandbox = $sandbox;
+			$this->environment = ($this->sandbox) ? 'sandbox' : 'production';
 
 			parent::__construct(
-				$url,
-				array_merge(
-					Credentials::fetch($store, $environment),
-					[
-						'Content-Type' => $this::TYPE . '; boundary=' . $this::BOUNDARY,
-						'X-EBAY-API-COMPATIBILITY-LEVEL' => $this::LEVEL,
-						'X-EBAY-API-CALL-NAME' => $callname,
-						'X-EBAY-API-SITEID' => $this::SITEID
-					]
-				),
-				(array_key_exists($callname, $call_list)) ? $call_list[$callname] : "{$callname}Request",
+				($this->sandbox) ? $this::SANDBOX_URL : $this::PRODUCTION_URL,
+				$this->setHeaders(),
+				$this::CALLNAME . 'Request',
 				$this::URN,
 				$this::CHARSET,
 				$verbose
@@ -118,184 +97,6 @@
 			)->Version(
 				$this::LEVEL
 			);
-		}
-
-		/**
-		 * Description may contain HTML, which needs to be contained within
-		 * CDATA in the XML request.
-		 *
-		 * @param string $content [HTML for Description]
-		 * @return \eBay_API\eBay_API_Call
-		 */
-
-		public function Description($content) {
-			$parent = new Node('Description');
-			$this->body->append($parent);
-			$content = str_replace(["\r", "\r\n", "\n", "\t"], null, $content);
-			$desc = $this->createCDATASection($content);
-			$parent->appendChild($desc);
-			return $this;
-		}
-
-		/**
-		 * eBay times need to be converted into UFC formatted GMT times
-		 * Automatically set ScheduleTime to this
-		 *
-		 * @param string $datetime [Any date format that works with strtotime()]
-		 */
-
-		public function ScheduleTime($datetime = null) {
-			$this->body->appendChild(new Element('ScheduleTime', $this->convert_date($datetime)));
-			return $this;
-		}
-
-		/**
-		 * eBay times need to be converted into UFC formatted GMT times
-		 *
-		 * @param  string $datetime [Any date format that works with strtotime()]
-		 *
-		 * @return string           [Datetime in DATETIME_FORMAT]
-		 */
-
-		private function convert_date($datetime = 'Now') {
-			return gmdate($this::DATETIME_FORMAT, strtotime($datetime));
-		}
-
-		/**
-		 * [return_policy description]
-		 *
-		 * @param  string $store [Name of store to get return policy for]
-		 *
-		 * @return array        [description]
-		 */
-
-		public function return_policy($store = null) {
-			return get_object_vars(PDO::load('inventory_data')->prepare("
-			SELECT
-				`ReturnsAcceptedOption`,
-				`RefundOption`,
-				`ReturnsWithinOption`,
-				`Description`,
-				`ShippingCostPaidByOption`
-			FROM `inventory_data`.`ReturnPolicy`;
-				WHERE `store` = :store
-				AND `channel` = 'ebay'
-				LIMIT 1
-			")->bind([
-				'store' => (isset($store)) ? $store : $this->store
-			])->execute()->get_results(0));
-		}
-
-		/**
-		 * [package_info description]
-		 *
-		 * @param  string $type [description]
-		 * @param  string $size [description]
-		 *
-		 * @return array        [description]
-		 */
-
-		public function package_info($type, $size) {
-			$result = PDO::load('inventory_data')->prepare("
-				SELECT
-					`length`,
-					`width`,
-					`depth`,
-					`oz` AS `weight`,
-					`package`,
-					`irregular`
-				FROM `garment_weight_dimensions`
-				WHERE `type` = :type
-				AND `size` = :size
-			")->bind([
-				'type' => trim($type),
-				'size' => trim($size)
-			])->execute()->get_results(0);
-
-			return (empty($result)) ? false : [
-				'PackageDepth' => [
-					(float)$result->depth,
-					$this->create_attributes([
-						'unit' => $this::LINEAR_UNIT,
-						'measurementSystem' => $this::MEASUREMENT_SYSTEM
-					])
-				],
-				'PackageLength' => [
-					(float)$result->length,
-					$this->create_attributes([
-						'unit' => $this::LINEAR_UNIT,
-						'measurementSystem' => $this::MEASUREMENT_SYSTEM
-					])
-				],
-				'PackageWidth' => [
-					(float)$result->width,
-					$this->create_attributes([
-						'unit' => $this::LINEAR_UNIT,
-						'measurementSystem' => $this::MEASUREMENT_SYSTEM
-					])
-				],
-				'WeightMajor' => [
-					floor($result->weight / 16),
-					$this->create_attributes([
-						'unit' => $this::WEIGHT_UNIT_MAJOR,
-						'measurementSystem' => $this::MEASUREMENT_SYSTEM
-					])
-				],
-				'WeightMinor' => [
-					$result->weight % 16,
-					$this->create_attributes([
-						'unit' => $this::WEIGHT_UNIT_MINOR,
-						'measurementSystem' => $this::MEASUREMENT_SYSTEM
-					])
-				],
-				'ShippingPackage' => $result->package,
-				'ShippingIrregular' => $result->irregular
-			];
-		}
-
-		/**
-		 * Get the CategoryID for listing on eBay
-		 *
-		 * @param string $name  [code for the name. E.G. LS for Long Sleeve]
-		 * @return array        ['CategoryID' => $CategoryID]
-		 */
-
-		public function getCategoryID($name) {
-			return get_object_vars(PDO::load('inventory_data')->prepare("
-				SELECT `CategoryID`
-				FROM `categories`
-				WHERE `name` = :name
-				LIMIT 1
-			")->bind([
-				'name' => $name
-			])->execute()->get_results(0));
-		}
-
-		/**
-		 * Converts CategoryID into its name
-		 * @param int $id [StoreCategoryID from eBay]
-		 * @return stdClass
-		 */
-
-		public function getCategory($id) {
-			$results = PDO::load('inventory_data')->prepare("
-				SELECT
-					`name` AS `Name`,
-					`code` AS `Code`,
-					`CategoryID`
-				FROM `categories`
-				WHERE `StoreCategoryID` = :id
-				LIMIT 1
-			")->bind([
-				'id' => $id
-			])->execute()->get_results(0);
-
-			if(is_object($results)) {
-				return $results;
-			}
-			else {
-				return null;
-			}
 		}
 	}
 ?>
