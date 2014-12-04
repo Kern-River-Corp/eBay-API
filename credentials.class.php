@@ -13,7 +13,7 @@
 	use \core\PDO as PDO;
 
 	abstract class Credentials {
-		private static $credentials = null, $tokens = null;
+		private static $credentials = null, $tokens = null, $stores = null;
 		const INI = 'ebay_api';
 
 		/**
@@ -50,6 +50,15 @@
 				])->execute()->get_results(0));
 			}
 			return self::$credentials[$store][$environment];
+		}
+
+		public static function stores() {
+			if(is_null(self::$stores)) {
+				self::$stores = array_map(function($store) {
+					return $store->user;
+				}, PDO::load(self::INI)->fetch_array("SELECT `user` FROM `production`"));
+			};
+			return self::$stores;
 		}
 
 		/**
