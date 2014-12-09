@@ -14,7 +14,7 @@
 
 	abstract class Credentials {
 		private static $credentials = null, $tokens = null, $stores = null;
-		const INI = 'ebay_api';
+		const CREDS = 'ebay_api';
 
 		/**
 		 * Queries a database for credentials and returns as an associative array
@@ -36,7 +36,7 @@
 			if(is_null(self::$credentials)) self::$credentials = [];
 			if(!array_key_exists($store, self::$credentials)) self::$credentials[$store] = [];
 			if(!array_key_exists($environment, self::$credentials[$store])) {
-				$creds = PDO::load(self::INI);
+				$creds = PDO::load(self::CREDS);
 				self::$credentials[$store][$environment] = get_object_vars($creds->prepare("
 					SELECT
 						`dev_key` AS `X-EBAY-API-DEV-NAME`,
@@ -56,7 +56,7 @@
 			if(is_null(self::$stores)) {
 				self::$stores = array_map(function($store) {
 					return $store->user;
-				}, PDO::load(self::INI)->fetch_array("SELECT `user` FROM `production`"));
+				}, PDO::load(self::CREDS)->fetch_array("SELECT `user` FROM `production`"));
 			};
 			return self::$stores;
 		}
@@ -77,7 +77,7 @@
 			if(is_null(self::$tokens)) self::$tokens = [];
 			if(!array_key_exists($store, self::$tokens)) self::$tokens[$store] = [];
 			if(!array_key_exists($environment, self::$tokens[$store])) {
-				$creds = PDO::load(self::INI);
+				$creds = PDO::load(self::CREDS);
 				self::$tokens[$store][$environment] = get_object_vars($creds->prepare("
 					SELECT `token` as `eBayAuthToken`
 					FROM `{$creds->escape($environment)}`
