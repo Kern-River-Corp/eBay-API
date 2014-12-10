@@ -171,12 +171,12 @@
 
 		public function getCategoryID($name) {
 			return get_object_vars(PDO::load('inventory_data')->prepare("
-			SELECT `CategoryID`
-			FROM `categories`
-			WHERE `name` = :name
-			LIMIT 1
+				SELECT `CategoryID`
+				FROM `categories`
+				WHERE `name` = :name
+				LIMIT 1
 			")->bind([
-			'name' => $name
+				'name' => $name
 			])->execute()->get_results(0));
 		}
 
@@ -188,15 +188,15 @@
 
 		public function getCategory($id) {
 			$results = PDO::load('inventory_data')->prepare("
-			SELECT
-			`name` AS `Name`,
-			`code` AS `Code`,
-			`CategoryID`
-			FROM `categories`
-			WHERE `StoreCategoryID` = :id
-			LIMIT 1
+				SELECT
+					`name` AS `Name`,
+					`code` AS `Code`,
+					`CategoryID`
+				FROM `categories`
+				WHERE `StoreCategoryID` = :id
+				LIMIT 1
 			")->bind([
-			'id' => $id
+				'id' => $id
 			])->execute()->get_results(0);
 
 			if(is_object($results)) {
