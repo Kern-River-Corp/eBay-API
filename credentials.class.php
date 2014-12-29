@@ -10,7 +10,7 @@
 	 */
 
 	namespace eBay_API;
-	use \core\PDO as PDO;
+	use \shgysk8zer0\Core\PDO as PDO;
 
 	abstract class Credentials {
 		private static $credentials = null, $tokens = null, $stores = null;

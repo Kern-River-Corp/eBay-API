@@ -18,10 +18,10 @@
 	*/
 
 	namespace eBay_API;
-	use \core\PDO as PDO;
-	use \core\resources\XML_Node as Node;
+	use \shgysk8zer0\Core\PDO as PDO;
+	use \shgysk8zer0\Core\resources\XML_Node as Node;
 	use \DOMElement as Element;
-	abstract class eBay_API_Call extends \core\XML_API_Call {
+	abstract class eBay_API_Call extends \shgysk8zer0\Core\XML_API_Call {
 		use \eBay_API\Resources;
 		/**
 		 * Dynamically construct an XML_API_Call with eBay specific paramaters
@@ -33,7 +33,7 @@
 		 * @var string $environment [Based on $sandbox, will be either 'production' or 'sandbox']
 		 * @var string $url [URL to send request to, based on $sandbox]
 		 * @var array $call_list [key => value array, mapping callnames to root elements]
-		 * @var \core\PDO $creds [Database connection for retrieving credentials]
+		 * @var \shgysk8zer0\Core\PDO $creds [Database connection for retrieving credentials]
 		 */
 
 		const LEVEL = 583,

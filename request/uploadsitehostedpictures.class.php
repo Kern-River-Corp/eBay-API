@@ -20,7 +20,7 @@
 	use \eBay_API\Credentials as Credentials;
 	use \DOMDocument as DOMDocument;
 	use \DOMElement as DOMElement;
-	use \core\SimpleImage as SimpleImage;
+	use \shgysk8zer0\Core\SimpleImage as SimpleImage;
 	class UploadSiteHostedPictures {
 		const CHARSET = 'UTF-8';
 		const NS = 'urn:ebay:apis:eBLBaseComponents';

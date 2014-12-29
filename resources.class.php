@@ -1,8 +1,8 @@
 <?php
 	namespace eBay_API;
 	use \eBay_API\Credentials as Credentials;
-	use \core\PDO as PDO;
-	use \core\resources\XML_Node as Node;
+	use \shgysk8zer0\Core\PDO as PDO;
+	use \shgysk8zer0\Core\resources\XML_Node as Node;
 	use \DOMElement as Element;
 	trait Resources {
 

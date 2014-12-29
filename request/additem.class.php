@@ -8,7 +8,7 @@
 	 */
 
 	namespace eBay_API\Request;
-	use \core\resources\XML_Node as XML_Node;
+	use \shgysk8zer0\Core\resources\XML_Node as XML_Node;
 	use \eBay_API\Credentials as Credentials;
 
 	class AddItem extends \eBay_API\eBay_API_Call {
