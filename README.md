@@ -14,7 +14,7 @@ cURL requests.
 ## Usage
 ```
 // Construct class for desired eBay API Call
-$req = new \eBay_API\Request\CallName($args);
+$req = new \Kern_River_Corp/eBay_API\Request\CallName($args);
 
 // Chain together creating elements using magic `__call()` method
 $req->$childNode(
@@ -35,7 +35,7 @@ $req->$childNode(
 ## Also allows for arbitrary eBay API Calls using
 ```
 // Functions similar to above
-$req = new \eBay_API\eBay_API_Call($store, $callname, $sandbox);
+$req = new \Kern_River_Corp/eBay_API\eBay_API_Call($store, $callname, $sandbox);
 $req->$childNode(
     $ChildNodeContent,
     [
