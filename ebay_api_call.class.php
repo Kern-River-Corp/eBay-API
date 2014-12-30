@@ -17,12 +17,12 @@
 	 * @todo Throw exception if $call not in $call_list
 	*/
 
-	namespace eBay_API;
+	namespace Kern_River_Corp\eBay_API;
 	use \shgysk8zer0\Core\PDO as PDO;
 	use \shgysk8zer0\Core\resources\XML_Node as Node;
 	use \DOMElement as Element;
 	abstract class eBay_API_Call extends \shgysk8zer0\Core\XML_API_Call {
-		use \eBay_API\Resources;
+		use \Kern_River_Corp\eBay_API\Resources;
 		/**
 		 * Dynamically construct an XML_API_Call with eBay specific paramaters
 		 *

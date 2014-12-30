@@ -7,11 +7,11 @@
 	 * @link http://developer.ebay.com/devzone/xml/docs/reference/ebay/AddItem.html
 	 */
 
-	namespace eBay_API\Request;
+	namespace Kern_River_Corp\eBay_API\Request;
 	use \shgysk8zer0\Core\resources\XML_Node as XML_Node;
-	use \eBay_API\Credentials as Credentials;
+	use \Kern_River_Corp\eBay_API\Credentials as Credentials;
 
-	class AddItem extends \eBay_API\eBay_API_Call {
+	class AddItem extends \Kern_River_Corp\eBay_API\eBay_API_Call {
 		const PHOTODISPLAY = 'SuperSize';
 		const CALLNAME = 'AddItem';
 

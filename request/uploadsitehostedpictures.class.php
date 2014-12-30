@@ -16,8 +16,8 @@
 	* @uses PDO
 	*/
 
-	namespace eBay_API\Request;
-	use \eBay_API\Credentials as Credentials;
+	namespace Kern_River_Corp\eBay_API\Request;
+	use \Kern_River_Corp\eBay_API\Credentials as Credentials;
 	use \DOMDocument as DOMDocument;
 	use \DOMElement as DOMElement;
 	use \shgysk8zer0\Core\SimpleImage as SimpleImage;

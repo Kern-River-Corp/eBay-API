@@ -7,9 +7,9 @@
 	 * @link http://developer.ebay.com/devzone/xml/docs/reference/ebay/VerifyAddItem.html
 	 */
 
-	namespace eBay_API\Request;
+	namespace Kern_River_Corp\eBay_API\Request;
 
-	class VerifyAddItem extends \eBay_API\Request\AddItem {
+	class VerifyAddItem extends \Kern_River_Corp\eBay_API\Request\AddItem {
 		const CALLNAME = 'VerifyAddItem';
 
 		public function __construct($store, $sandbox = false) {

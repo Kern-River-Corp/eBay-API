@@ -1,6 +1,6 @@
 <?php
-	namespace eBay_API;
-	use \eBay_API\Credentials as Credentials;
+	namespace Kern_River_Corp\eBay_API;
+	use \Kern_River_Corp\eBay_API\Credentials as Credentials;
 	use \shgysk8zer0\Core\PDO as PDO;
 	use \shgysk8zer0\Core\resources\XML_Node as Node;
 	use \DOMElement as Element;
@@ -34,7 +34,7 @@
 		* CDATA in the XML request.
 		*
 		* @param string $content [HTML for Description]
-		* @return \eBay_API\eBay_API_Call
+		* @return \Kern_River_Corp\eBay_API\eBay_API_Call
 		*/
 
 		public function Description($content) {

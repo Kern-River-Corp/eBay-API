@@ -9,8 +9,8 @@
 	* @link http://developer.ebay.com/devzone/xml/docs/reference/ebay/AddFixedPriceItem.html
 	 */
 
-	namespace eBay_API\Request;
-	class AddFixedPriceItems extends \eBay_API\eBay_API_Call {
+	namespace Kern_River_Corp\eBay_API\Request;
+	class AddFixedPriceItems extends \Kern_River_Corp\eBay_API\eBay_API_Call {
 		/**
 		 * Initialize parent and create request body
 		 *

@@ -1,7 +1,7 @@
 <?php
 	/**
 	 * Class with protected method for retrieving eBay credentials from a
-	 * database. Only accessible to \eBay_API_Call.
+	 * database. Only accessible to \Kern_River_Corp\eBay_API_Call.
 	 *
 	 *  @author Chris Zuber
 	 *  @copyright 2014, Chris Zuber <chris@kernrivercorp.com>
@@ -9,7 +9,7 @@
 	 *  @version 2014-11-13
 	 */
 
-	namespace eBay_API;
+	namespace Kern_River_Corp\eBay_API;
 	use \shgysk8zer0\Core\PDO as PDO;
 
 	abstract class Credentials {

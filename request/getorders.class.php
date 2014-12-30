@@ -7,9 +7,9 @@
 	 * @link http://developer.ebay.com/devzone/xml/docs/reference/ebay/GetOrders.html
 	 */
 
-	namespace eBay_API\Request;
-	use \eBay_API\Credentials as Credentials;
-	class GetOrders extends \eBay_API\eBay_API_Call {
+	namespace Kern_River_Corp\eBay_API\Request;
+	use \Kern_River_Corp\eBay_API\Credentials as Credentials;
+	class GetOrders extends \Kern_River_Corp\eBay_API\eBay_API_Call {
 		/**
 		 * Get all items sold in $store since $since in $length seconds
 		 *
