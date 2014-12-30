@@ -52,7 +52,8 @@
 			CURRENCY_ID = 'USD',
 			DATETIME_FORMAT = 'Y-m-d\TH:i:s.000\Z',
 			SANDBOX_URL = 'https://api.sandbox.ebay.com/ws/api.dll',
-			PRODUCTION_URL = 'https://api.ebay.com/ws/api.dll';
+			PRODUCTION_URL = 'https://api.ebay.com/ws/api.dll',
+			SLEEP = 5;
 
 			protected $store, $environment, $sandbox;
 
