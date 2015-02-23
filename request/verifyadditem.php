@@ -1,19 +1,20 @@
 <?php
-	/**
-	 * @author Chris Zuber
-	 * @copyright 2014, Chris Zuber <chris@kernrivercorp.com>
-	 * @package mother_brain
-	 * @version 2014-12-03
-	 * @link http://developer.ebay.com/devzone/xml/docs/reference/ebay/VerifyAddItem.html
-	 */
+/**
+ * @author Chris Zuber
+ * @copyright 2014, Chris Zuber <chris@kernrivercorp.com>
+ * @package mother_brain
+ * @version 2014-12-03
+ * @link http://developer.ebay.com/devzone/xml/docs/reference/ebay/VerifyAddItem.html
+ */
 
-	namespace Kern_River_Corp\eBay_API\Request;
+namespace Kern_River_Corp\eBay_API\Request;
 
-	class VerifyAddItem extends \Kern_River_Corp\eBay_API\Request\AddItem {
-		const CALLNAME = 'VerifyAddItem';
+class VerifyAddItem extends \Kern_River_Corp\eBay_API\Request\AddItem
+{
+	const CALLNAME = 'VerifyAddItem';
 
-		public function __construct($store, $sandbox = false) {
-			parent::__construct($store, $sandbox);
-		}
+	public function __construct($store, $sandbox = false)
+	{
+		parent::__construct($store, $sandbox);
 	}
-?>
+}
