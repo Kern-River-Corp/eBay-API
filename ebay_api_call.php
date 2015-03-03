@@ -10,7 +10,7 @@
  * @package mother_brain
  * @version 2014-11-13
  *
- * @link http://developer.ebay.com/devzone/xml/docs/reference/ebay/ [eBay API Call Index]
+ * @see http://developer.ebay.com/devzone/xml/docs/reference/ebay/ [eBay API Call Index]
  *
  * @todo HasMoreOrders logic (max 100 per page/request)
  * @todo timestamp/ack check (Success)
@@ -30,33 +30,25 @@ abstract class eBay_API_Call extends \shgysk8zer0\Core\XML_API_Call
 	 * @param string  $store    User in database, used to get credentials
 	 * @param bool    $sandbox  Sandbox or production
 	 * @param bool    $verbose  Use CURLOPT_VERBOSE?
-	 *
-	 * @var string $environment Based on $sandbox, will be either 'production' or 'sandbox'
-	 * @var string $url         URL to send request to, based on $sandbox
-	 * @var array  $call_list   key => value array, mapping callnames to root elements
-	 * @var PDO    $creds       Database connection for retrieving credentials
 	 */
 
-	const LEVEL = 583,
-		SITEID = 0,
-		SITECODE = 'US',
-		URN = 'urn:ebay:apis:eBLBaseComponents',
-		CHARSET = 'UTF-8',
-		TYPE = 'text/xml',
-		BOUNDARY = 'MIME_boundary',
-		ERROR_LANG = 'en_US',
-		WARNING_LEVEL = 'High',
-		MEASUREMENT_SYSTEM = 'English',
-		WEIGHT_UNIT_MAJOR = 'lb',
-		WEIGHT_UNIT_MINOR = 'oz',
-		LINEAR_UNIT = 'in',
-		CURRENCY_ID = 'USD',
-		DATETIME_FORMAT = 'Y-m-d\TH:i:s.000\Z',
-		SANDBOX_URL = 'https://api.sandbox.ebay.com/ws/api.dll',
-		PRODUCTION_URL = 'https://api.ebay.com/ws/api.dll',
-		SLEEP = 5;
+	/**
+	 * Store/eBay user name
+	 * @var string
+	 */
+	protected $store;
 
-		protected $store, $environment, $sandbox;
+	/**
+	 * Production or sandbox
+	 * @var string
+	 */
+	protected $environment;
+
+	/**
+	 * Whether or not this is sandboxed server
+	 * @var bool
+	 */
+	protected $sandbox;
 
 	/**
 	 * Create a new XML_API call with eBay specific data
@@ -70,26 +62,27 @@ abstract class eBay_API_Call extends \shgysk8zer0\Core\XML_API_Call
 		$store,
 		$sandbox = false,
 		$verbose = false
-	) {
+	)
+	{
 		$this->store = $store;
 		$this->sandbox = $sandbox;
 		$this->environment = ($this->sandbox) ? 'sandbox' : 'production';
 
 		parent::__construct(
-			($this->sandbox) ? $this::SANDBOX_URL : $this::PRODUCTION_URL,
+			($this->sandbox) ? Defs::SANDBOX_URL : Defs::PRODUCTION_URL,
 			$this->setHeaders(),
 			$this::CALLNAME . 'Request',
-			$this::URN,
-			$this::CHARSET,
+			Defs::URN,
+			Defs::CHARSET,
 			$verbose
 		);
 
 		$this->ErrorLanguage(
-			$this::ERROR_LANG
+			Defs::ERROR_LANG
 		)->WarningLevel(
-			$this::WARNING_LEVEL
+			Defs::WARNING_LEVEL
 		)->Version(
-			$this::LEVEL
+			Defs::LEVEL
 		);
 	}
 }

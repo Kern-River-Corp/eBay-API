@@ -1,29 +1,36 @@
 <?php
+/**
+ *
+ */
 namespace Kern_River_Corp\eBay_API;
+
 use \Kern_River_Corp\eBay_API\Credentials as Credentials;
 use \shgysk8zer0\Core\PDO as PDO;
 use \shgysk8zer0\Core\resources\XML_Node as Node;
 use \DOMElement as Element;
-trait Resources {
+
+/**
+ * Provides several commonly used methods for dealing with the eBay API
+ */
+trait Resources
+{
 
 	/**
 	 * Build the headers array, including eBay credentials & optional
 	 * additional headers
 	 *
 	 * @param array $additional Optional additional headers ($name => $value)
-	 *
 	 * @return array
 	 */
-
 	public function setHeaders(array $additional = array())
 	{
 		return array_merge(
 			Credentials::fetch($this->store, $this->environment),
 			[
-				'Content-Type' => $this::TYPE . '; boundary=' . $this::BOUNDARY,
-				'X-EBAY-API-COMPATIBILITY-LEVEL' => $this::LEVEL,
-				'X-EBAY-API-CALL-NAME' => $this::CALLNAME,
-				'X-EBAY-API-SITEID' => $this::SITEID
+				'Content-Type' => Defs::TYPE . '; boundary=' . Defs::BOUNDARY,
+				'X-EBAY-API-COMPATIBILITY-LEVEL' => Defs::LEVEL,
+				'X-EBAY-API-CALL-NAME' => Defs::CALLNAME,
+				'X-EBAY-API-SITEID' => Defs::SITEID
 			],
 			$additional
 		);
@@ -36,7 +43,6 @@ trait Resources {
 	* @param string $content HTML for Description
 	* @return \Kern_River_Corp\eBay_API\eBay_API_Call
 	*/
-
 	public function Description($content)
 	{
 		$parent = new Node('Description');
@@ -52,8 +58,8 @@ trait Resources {
 	* Automatically set ScheduleTime to this
 	*
 	* @param string $datetime Any date format that works with strtotime()
+	* @return self
 	*/
-
 	public function ScheduleTime($datetime = null)
 	{
 		$this->body->appendChild(new Element('ScheduleTime', $this->convert_date($datetime)));
@@ -64,25 +70,21 @@ trait Resources {
 	* eBay times need to be converted into UFC formatted GMT times
 	*
 	* @param  string $datetime Any date format that works with strtotime()
-	*
 	* @return string           Datetime in DATETIME_FORMAT
 	*/
-
 	protected function convert_date($datetime = 'Now')
 	{
-		return gmdate($this::DATETIME_FORMAT, strtotime($datetime));
+		return gmdate(Defs::DATETIME_FORMAT, strtotime($datetime));
 	}
 
 	/**
 	* [return_policy description]
 	*
 	* @param  string $store Name of store to get return policy for
-	*
 	* @return array        [description]
 	*/
-
 	public function return_policy($store = null) {
-		return get_object_vars(PDO::load('inventory_data')->prepare(
+		return get_object_vars(PDO::load('inventory_data.json')->prepare(
 			"SELECT
 				`ReturnsAcceptedOption`,
 				`RefundOption`,
@@ -103,13 +105,11 @@ trait Resources {
 	*
 	* @param  string $type [description]
 	* @param  string $size [description]
-	*
 	* @return array        [description]
 	*/
-
 	public function package_info($type, $size)
 	{
-		$result = PDO::load('inventory_data')->prepare(
+		$result = PDO::load('inventory_data.json')->prepare(
 			"SELECT
 				`length`,
 				`width`,
@@ -129,36 +129,36 @@ trait Resources {
 			'PackageDepth' => [
 				(float)$result->depth,
 				$this->create_attributes([
-					'unit' => $this::LINEAR_UNIT,
-					'measurementSystem' => $this::MEASUREMENT_SYSTEM
+					'unit' => Defs::LINEAR_UNIT,
+					'measurementSystem' => Defs::MEASUREMENT_SYSTEM
 				])
 			],
 			'PackageLength' => [
 				(float)$result->length,
 				$this->create_attributes([
-				'unit' => $this::LINEAR_UNIT,
-				'measurementSystem' => $this::MEASUREMENT_SYSTEM
+				'unit' => Defs::LINEAR_UNIT,
+				'measurementSystem' => Defs::MEASUREMENT_SYSTEM
 				])
 			],
 			'PackageWidth' => [
 				(float)$result->width,
 				$this->create_attributes([
-					'unit' => $this::LINEAR_UNIT,
-					'measurementSystem' => $this::MEASUREMENT_SYSTEM
+					'unit' => Defs::LINEAR_UNIT,
+					'measurementSystem' => Defs::MEASUREMENT_SYSTEM
 				])
 			],
 			'WeightMajor' => [
 				floor($result->weight / 16),
 				$this->create_attributes([
-					'unit' => $this::WEIGHT_UNIT_MAJOR,
-					'measurementSystem' => $this::MEASUREMENT_SYSTEM
+					'unit' => Defs::WEIGHT_UNIT_MAJOR,
+					'measurementSystem' => Defs::MEASUREMENT_SYSTEM
 				])
 			],
 			'WeightMinor' => [
 				$result->weight % 16,
 				$this->create_attributes([
-					'unit' => $this::WEIGHT_UNIT_MINOR,
-					'measurementSystem' => $this::MEASUREMENT_SYSTEM
+					'unit' => Defs::WEIGHT_UNIT_MINOR,
+					'measurementSystem' => Defs::MEASUREMENT_SYSTEM
 				])
 			],
 			'ShippingPackage' => $result->package,
@@ -172,10 +172,9 @@ trait Resources {
 	* @param string $name  code for the name. E.G. LS for Long Sleeve
 	* @return array        'CategoryID' => $CategoryID
 	*/
-
 	public function getCategoryID($name)
 	{
-		return get_object_vars(PDO::load('inventory_data')->prepare(
+		return get_object_vars(PDO::load('inventory_data.json')->prepare(
 			"SELECT `CategoryID`
 			FROM `categories`
 			WHERE `name` = :name
@@ -191,10 +190,9 @@ trait Resources {
 	* @param int $id StoreCategoryID from eBay
 	* @return stdClass
 	*/
-
 	public function getCategory($id)
 	{
-		$results = PDO::load('inventory_data')->prepare(
+		$results = PDO::load('inventory_data.json')->prepare(
 			"SELECT
 				`name` AS `Name`,
 				`code` AS `Code`,
