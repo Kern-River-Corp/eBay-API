@@ -24,13 +24,6 @@ use \DOMElement as Element;
 abstract class eBay_API_Call extends \shgysk8zer0\Core\XML_API_Call
 {
 	use \Kern_River_Corp\eBay_API\Resources;
-	/**
-	 * Dynamically construct an XML_API_Call with eBay specific paramaters
-	 *
-	 * @param string  $store    User in database, used to get credentials
-	 * @param bool    $sandbox  Sandbox or production
-	 * @param bool    $verbose  Use CURLOPT_VERBOSE?
-	 */
 
 	/**
 	 * Store/eBay user name
@@ -77,12 +70,8 @@ abstract class eBay_API_Call extends \shgysk8zer0\Core\XML_API_Call
 			$verbose
 		);
 
-		$this->ErrorLanguage(
-			Defs::ERROR_LANG
-		)->WarningLevel(
-			Defs::WARNING_LEVEL
-		)->Version(
-			Defs::LEVEL
-		);
+		$this->ErrorLanguage(Defs::ERROR_LANG)
+			->WarningLevel(Defs::WARNING_LEVEL)
+			->Version(Defs::LEVEL);
 	}
 }
