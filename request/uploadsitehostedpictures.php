@@ -17,7 +17,7 @@
 */
 
 namespace Kern_River_Corp\eBay_API\Request;
-use \Kern_River_Corp\eBay_API\Credentials as Credentials;
+use \Kern_River_Corp\eBay_API as eBay;
 use \DOMDocument as DOMDocument;
 use \DOMElement as DOMElement;
 use \shgysk8zer0\Core\SimpleImage as SimpleImage;
@@ -54,21 +54,21 @@ class UploadSiteHostedPictures
 		$this->store = $store;
 		$this->sandbox = $sandbox;
 		$this->con = $con;
-		$this->serverUrl = ($sandbox) ? self::SANDBOX_URL : self::PRODUCTION_URL;
+		$this->serverUrl = ($sandbox) ? eBay\Defs::SANDBOX_URL : eBay\Defs::PRODUCTION_URL;
 	}
 
 	protected function buildXML()
 	{
-		$this->XML = new DOMDocument('1.0', $this::CHARSET);
-		$root = new DOMElement($this::VERB . 'Request', null, $this::NS);
+		$this->XML = new DOMDocument('1.0', eBay\Defs::CHARSET);
+		$root = new DOMElement($this::VERB . 'Request', null, eBay\Defs::URN);
 		$this->XML->appendChild($root);
-		$root->appendChild(new DOMElement('Version', $this::LEVEL));
+		$root->appendChild(new DOMElement('Version', eBay\Defs::LEVEL));
 		$root->appendChild(new DOMElement('PictureName', basename($this->image)));
-		$root->appendChild(new DOMElement('PictureSet', $this::PICTURESET));
+		$root->appendChild(new DOMElement('PictureSet', self::PICTURESET));
 		$creds = $root->appendChild(new DOMElement('RequesterCredentials'));
 		$creds->appendChild(new DOMElement(
 			'eBayAuthToken',
-			Credentials::token(
+			eBay\Credentials::token(
 				$this->store,
 				($this->sandbox) ? 'sandbox' : 'production'
 			)['eBayAuthToken'])
@@ -79,29 +79,29 @@ class UploadSiteHostedPictures
 	protected function buildRequest()
 	{
 		//XML Request
-		$this->request = "--" . $this::BOUNDARY . PHP_EOL;
+		$this->request = "--" . self::BOUNDARY . PHP_EOL;
 		$this->request .= 'Content-Disposition: form-data; name="XML Payload"' . PHP_EOL;
 		$this->request .= 'Content-Type: text/xml;charset=utf-8' . PHP_EOL . PHP_EOL;
 		$this->request .= $this->XML->saveXML() . PHP_EOL;
 
 		//Image as Binary
-		$this->request .= "--" . $this::BOUNDARY . PHP_EOL;
+		$this->request .= "--" . self::BOUNDARY . PHP_EOL;
 		$this->request .= 'Content-Disposition: form-data; name="dummy"; filename="' . basename($this->image) . '"' . PHP_EOL;
 		$this->request .= "Content-Transfer-Encoding: binary" . PHP_EOL;
 		$this->request .= "Content-Type: application/octet-stream" . PHP_EOL . PHP_EOL;
 		$this->request .= (string)$this->convertImage() . PHP_EOL;
-		$this->request .= "--" . $this::BOUNDARY. "--" . PHP_EOL;
+		$this->request .= "--" . self::BOUNDARY. "--" . PHP_EOL;
 		return $this;
 	}
 
 	protected function buildHeaders()
 	{
 		$headers = array_merge([
-			'Content-Type' => 'multipart/form-data; boundary=' . $this::BOUNDARY,
+			'Content-Type' => 'multipart/form-data; boundary=' . self::BOUNDARY,
 			'Content-Length' => $this->length(),
-			'X-EBAY-API-COMPATIBILITY-LEVEL' => $this::LEVEL,
-			'X-EBAY-API-CALL-NAME' => $this::VERB,
-			'X-EBAY-API-SITEID' => $this::SITEID
+			'X-EBAY-API-COMPATIBILITY-LEVEL' => eBay\Defs::LEVEL,
+			'X-EBAY-API-CALL-NAME' => self::VERB,
+			'X-EBAY-API-SITEID' => eBay\Defs::SITEID
 
 		], Credentials::fetch($this->store, ($this->sandbox) ? 'sandbox' : 'production'));
 
@@ -115,7 +115,7 @@ class UploadSiteHostedPictures
 	protected function convertImage()
 	{
 		$img = new SimpleImage($this->image);
-		$img->min_dim($this::MIN_DIMENSIONS);
+		$img->min_dim(eBay\Defs::MIN_DIMENSIONS);
 		return $img->output(IMAGETYPE_JPEG, true);
 	}
 
@@ -160,7 +160,7 @@ class UploadSiteHostedPictures
 		curl_setopt($connection, CURLOPT_FOLLOWLOCATION, 1);
 		//curl_setopt($connection, CURLOPT_HEADER, 1 );		   // Uncomment these for debugging
 		//curl_setopt($connection, CURLOPT_VERBOSE, true);		// Display communication with serve
-		curl_setopt($connection, CURLOPT_USERAGENT, $this::USER_AGENT);
+		curl_setopt($connection, CURLOPT_USERAGENT, eBay\Defs::USER_AGENT);
 		curl_setopt($connection, CURLOPT_HTTP_VERSION, 1 );	   // HTTP version must be 1.0
 		$response = simplexml_load_string(curl_exec($connection));
 		curl_close($connection);
