@@ -29,7 +29,7 @@ trait Resources
 			[
 				'Content-Type' => \Kern_River_Corp\eBay_API\Defs::TYPE . '; boundary=' . \Kern_River_Corp\eBay_API\Defs::BOUNDARY,
 				'X-EBAY-API-COMPATIBILITY-LEVEL' => \Kern_River_Corp\eBay_API\Defs::LEVEL,
-				'X-EBAY-API-CALL-NAME' => self::CALLNAME,
+				'X-EBAY-API-CALL-NAME' => $this::CALLNAME,
 				'X-EBAY-API-SITEID' => \Kern_River_Corp\eBay_API\Defs::SITEID
 			],
 			$additional
