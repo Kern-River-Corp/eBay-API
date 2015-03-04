@@ -10,6 +10,7 @@
  */
 
 namespace Kern_River_Corp\eBay_API\Request;
+use \Kern_River_Corp\eBay_API as eBay;
 class AddFixedPriceItems extends \Kern_River_Corp\eBay_API\eBay_API_Call
 {
 	/**
@@ -29,7 +30,7 @@ class AddFixedPriceItems extends \Kern_River_Corp\eBay_API\eBay_API_Call
 			$sandbox
 		);
 
-		if(is_null($items) or !is_array($items) or empty($items)) {
+		if (is_null($items) or !is_array($items) or empty($items)) {
 			$items = [
 				[
 					'CategoryMappingAllowed' => 'true',
@@ -79,9 +80,9 @@ class AddFixedPriceItems extends \Kern_River_Corp\eBay_API\eBay_API_Call
 			$this->AddFixedPriceItemRequest([
 				'Item' => $item
 			]);
-			$this->getElementsByTagName(
-				'ShippingServiceCost'
-			)->item($n++)->setAttribute('currencyID', 'USD');
+			$this->getElementsByTagName('ShippingServiceCost')
+				->item($n++)
+				->setAttribute('currencyID', \Kern_River_Corp\eBay_API\Defs::CURRENCY_ID);
 		}
 	}
 }

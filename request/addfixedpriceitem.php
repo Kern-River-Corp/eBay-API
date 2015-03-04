@@ -10,7 +10,7 @@
  */
 
 namespace Kern_River_Corp\eBay_API\Request;
-use \Kern_River_Corp\eBay_API\Credentials as Credentials;
+use \Kern_River_Corp\eBay_API as eBay;
 class AddFixedPriceItem extends \Kern_River_Corp\eBay_API\eBay_API_Call
 {
 	/**
@@ -34,7 +34,7 @@ class AddFixedPriceItem extends \Kern_River_Corp\eBay_API\eBay_API_Call
 			$item = [
 				'CategoryMappingAllowed' => 'true',
 				'Country' => 'US',
-				'Currency' => 'USD',
+				'Currency' => \Kern_River_Corp\eBay_API\Defs::CURRENCY_ID,
 				'Description' => 'Minimal fixed-price shoe listing with SKU, free shipping, 3-day dispatch time, return policy, and no Item Specifics. New Nike Shox Elite TB White/White-Black-Chrome. Size: Mens US 12, UK 11, Europe 46 (Medium, D, M). Condition: New in box.',
 				'DispatchTimeMax' => 3,
 				'InventoryTrackingMethod' => 'SKU',
@@ -68,19 +68,19 @@ class AddFixedPriceItem extends \Kern_River_Corp\eBay_API\eBay_API_Call
 						'FreeShipping' => 'true'
 					]
 				],
-				'Site' => 'US',
+				'Site' => \Kern_River_Corp\eBay_API::SITECODE,
 				'SKU' => '1122334455-14',
 				'StartPrice' => '50.00',
 				'Title' => 'New Nike Shox Elite TB White Mens Basketball Shoes S 12'
 			];
 		}
 		$this->RequesterCredentials(
-			Credentials::token($this->store, $this->environment)
+			eBay\Credentials::token($this->store, $this->environment)
 		)->Item(
 			$item
 		);
-		$this->getElementsByTagName(
-			'ShippingServiceCost'
-		)->item(0)->setAttribute('currencyID', 'USD');
+		$this->getElementsByTagName('ShippingServiceCost')
+			->item(0)
+			->setAttribute('currencyID', \Kern_River_Corp\eBay_API\Defs::CURRENCY_ID);
 	}
 }

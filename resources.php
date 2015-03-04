@@ -27,10 +27,10 @@ trait Resources
 		return array_merge(
 			Credentials::fetch($this->store, $this->environment),
 			[
-				'Content-Type' => Defs::TYPE . '; boundary=' . Defs::BOUNDARY,
-				'X-EBAY-API-COMPATIBILITY-LEVEL' => Defs::LEVEL,
-				'X-EBAY-API-CALL-NAME' => Defs::CALLNAME,
-				'X-EBAY-API-SITEID' => Defs::SITEID
+				'Content-Type' => \Kern_River_Corp\eBay_API\Defs::TYPE . '; boundary=' . \Kern_River_Corp\eBay_API\Defs::BOUNDARY,
+				'X-EBAY-API-COMPATIBILITY-LEVEL' => \Kern_River_Corp\eBay_API\Defs::LEVEL,
+				'X-EBAY-API-CALL-NAME' => $this::CALLNAME,
+				'X-EBAY-API-SITEID' => \Kern_River_Corp\eBay_API\Defs::SITEID
 			],
 			$additional
 		);
@@ -74,7 +74,7 @@ trait Resources
 	*/
 	protected function convert_date($datetime = 'Now')
 	{
-		return gmdate(Defs::DATETIME_FORMAT, strtotime($datetime));
+		return gmdate(\Kern_River_Corp\eBay_API\Defs::DATETIME_FORMAT, strtotime($datetime));
 	}
 
 	/**
@@ -129,36 +129,36 @@ trait Resources
 			'PackageDepth' => [
 				(float)$result->depth,
 				$this->create_attributes([
-					'unit' => Defs::LINEAR_UNIT,
-					'measurementSystem' => Defs::MEASUREMENT_SYSTEM
+					'unit' => \Kern_River_Corp\eBay_API\Defs::LINEAR_UNIT,
+					'measurementSystem' => \Kern_River_Corp\eBay_API\Defs::MEASUREMENT_SYSTEM
 				])
 			],
 			'PackageLength' => [
 				(float)$result->length,
 				$this->create_attributes([
-				'unit' => Defs::LINEAR_UNIT,
-				'measurementSystem' => Defs::MEASUREMENT_SYSTEM
+				'unit' => \Kern_River_Corp\eBay_API\Defs::LINEAR_UNIT,
+				'measurementSystem' => \Kern_River_Corp\eBay_API\Defs::MEASUREMENT_SYSTEM
 				])
 			],
 			'PackageWidth' => [
 				(float)$result->width,
 				$this->create_attributes([
-					'unit' => Defs::LINEAR_UNIT,
-					'measurementSystem' => Defs::MEASUREMENT_SYSTEM
+					'unit' => \Kern_River_Corp\eBay_API\Defs::LINEAR_UNIT,
+					'measurementSystem' => \Kern_River_Corp\eBay_API\Defs::MEASUREMENT_SYSTEM
 				])
 			],
 			'WeightMajor' => [
 				floor($result->weight / 16),
 				$this->create_attributes([
-					'unit' => Defs::WEIGHT_UNIT_MAJOR,
-					'measurementSystem' => Defs::MEASUREMENT_SYSTEM
+					'unit' => \Kern_River_Corp\eBay_API\Defs::WEIGHT_UNIT_MAJOR,
+					'measurementSystem' => \Kern_River_Corp\eBay_API\Defs::MEASUREMENT_SYSTEM
 				])
 			],
 			'WeightMinor' => [
 				$result->weight % 16,
 				$this->create_attributes([
-					'unit' => Defs::WEIGHT_UNIT_MINOR,
-					'measurementSystem' => Defs::MEASUREMENT_SYSTEM
+					'unit' => \Kern_River_Corp\eBay_API\Defs::WEIGHT_UNIT_MINOR,
+					'measurementSystem' => \Kern_River_Corp\eBay_API\Defs::MEASUREMENT_SYSTEM
 				])
 			],
 			'ShippingPackage' => $result->package,

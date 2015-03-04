@@ -62,16 +62,16 @@ abstract class eBay_API_Call extends \shgysk8zer0\Core\XML_API_Call
 		$this->environment = ($this->sandbox) ? 'sandbox' : 'production';
 
 		parent::__construct(
-			($this->sandbox) ? Defs::SANDBOX_URL : Defs::PRODUCTION_URL,
+			($this->sandbox) ? \Kern_River_Corp\eBay_API\Defs::SANDBOX_URL : \Kern_River_Corp\eBay_API\Defs::PRODUCTION_URL,
 			$this->setHeaders(),
 			$this::CALLNAME . 'Request',
-			Defs::URN,
-			Defs::CHARSET,
+			\Kern_River_Corp\eBay_API\Defs::URN,
+			\Kern_River_Corp\eBay_API\Defs::CHARSET,
 			$verbose
 		);
 
-		$this->ErrorLanguage(Defs::ERROR_LANG)
-			->WarningLevel(Defs::WARNING_LEVEL)
-			->Version(Defs::LEVEL);
+		$this->ErrorLanguage(\Kern_River_Corp\eBay_API\Defs::ERROR_LANG)
+			->WarningLevel(\Kern_River_Corp\eBay_API\Defs::WARNING_LEVEL)
+			->Version(\Kern_River_Corp\eBay_API\Defs::LEVEL);
 	}
 }

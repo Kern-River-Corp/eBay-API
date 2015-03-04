@@ -11,6 +11,7 @@ abstract class Defs
 	const SITEID = 0;
 	const SITECODE = 'US';
 	const URN = 'urn:ebay:apis:eBLBaseComponents';
+	const USER_AGENT = 'ebatns;xmlstyle;1.0';
 	const CHARSET = 'UTF-8';
 	const TYPE = 'text/xml';
 	const BOUNDARY = 'MIME_boundary';

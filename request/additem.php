@@ -10,6 +10,7 @@
 namespace Kern_River_Corp\eBay_API\Request;
 use \shgysk8zer0\Core\resources\XML_Node as XML_Node;
 use \Kern_River_Corp\eBay_API\Credentials as Credentials;
+use \Kern_River_Corp\eBay_API as eBay;
 
 class AddItem extends \Kern_River_Corp\eBay_API\eBay_API_Call
 {
@@ -30,9 +31,9 @@ class AddItem extends \Kern_River_Corp\eBay_API\eBay_API_Call
 		);
 		$this->body = $this->body->appendChild(new XML_Node('Item'));
 		$this->Site(
-			$this::SITECODE
+			\Kern_River_Corp\eBay_API\Defs::SITECODE
 		)->Currency(
-			$this::CURRENCY_ID
+			\Kern_River_Corp\eBay_API\Defs::CURRENCY_ID
 		);
 	}
 
@@ -51,11 +52,11 @@ class AddItem extends \Kern_River_Corp\eBay_API\eBay_API_Call
 		) {
 			$this->item['StartPrice'] = [
 				$this->item['StartPrice'],
-				$this->attribute('currencyID', $this::CURRENCY_ID)
+				$this->attribute('currencyID', \Kern_River_Corp\eBay_API\Defs::CURRENCY_ID)
 			];
 			$this->item['PictureDetails'] = [
 				[
-					'PhotoDisplay' => $this::PHOTODISPLAY,
+					'PhotoDisplay' => self::PHOTODISPLAY,
 					'PictureURL' => $this->item['PictureDetails']
 				]
 			];
