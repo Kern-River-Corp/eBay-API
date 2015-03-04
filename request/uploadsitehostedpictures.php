@@ -54,15 +54,15 @@ class UploadSiteHostedPictures
 		$this->store = $store;
 		$this->sandbox = $sandbox;
 		$this->con = $con;
-		$this->serverUrl = ($sandbox) ? eBay\Defs::SANDBOX_URL : eBay\Defs::PRODUCTION_URL;
+		$this->serverUrl = ($sandbox) ? \Kern_River_Corp\eBay_API\Defs::SANDBOX_URL : \Kern_River_Corp\eBay_API\Defs::PRODUCTION_URL;
 	}
 
 	protected function buildXML()
 	{
-		$this->XML = new DOMDocument('1.0', eBay\Defs::CHARSET);
-		$root = new DOMElement($this::VERB . 'Request', null, eBay\Defs::URN);
+		$this->XML = new DOMDocument('1.0', \Kern_River_Corp\eBay_API\Defs::CHARSET);
+		$root = new DOMElement($this::VERB . 'Request', null, \Kern_River_Corp\eBay_API\Defs::URN);
 		$this->XML->appendChild($root);
-		$root->appendChild(new DOMElement('Version', eBay\Defs::LEVEL));
+		$root->appendChild(new DOMElement('Version', \Kern_River_Corp\eBay_API\Defs::LEVEL));
 		$root->appendChild(new DOMElement('PictureName', basename($this->image)));
 		$root->appendChild(new DOMElement('PictureSet', self::PICTURESET));
 		$creds = $root->appendChild(new DOMElement('RequesterCredentials'));
@@ -99,9 +99,9 @@ class UploadSiteHostedPictures
 		$headers = array_merge([
 			'Content-Type' => 'multipart/form-data; boundary=' . self::BOUNDARY,
 			'Content-Length' => $this->length(),
-			'X-EBAY-API-COMPATIBILITY-LEVEL' => eBay\Defs::LEVEL,
+			'X-EBAY-API-COMPATIBILITY-LEVEL' => \Kern_River_Corp\eBay_API\Defs::LEVEL,
 			'X-EBAY-API-CALL-NAME' => self::VERB,
-			'X-EBAY-API-SITEID' => eBay\Defs::SITEID
+			'X-EBAY-API-SITEID' => \Kern_River_Corp\eBay_API\Defs::SITEID
 
 		], Credentials::fetch($this->store, ($this->sandbox) ? 'sandbox' : 'production'));
 
@@ -115,7 +115,7 @@ class UploadSiteHostedPictures
 	protected function convertImage()
 	{
 		$img = new SimpleImage($this->image);
-		$img->min_dim(eBay\Defs::MIN_DIMENSIONS);
+		$img->min_dim(\Kern_River_Corp\eBay_API\Defs::MIN_DIMENSIONS);
 		return $img->output(IMAGETYPE_JPEG, true);
 	}
 
@@ -160,7 +160,7 @@ class UploadSiteHostedPictures
 		curl_setopt($connection, CURLOPT_FOLLOWLOCATION, 1);
 		//curl_setopt($connection, CURLOPT_HEADER, 1 );		   // Uncomment these for debugging
 		//curl_setopt($connection, CURLOPT_VERBOSE, true);		// Display communication with serve
-		curl_setopt($connection, CURLOPT_USERAGENT, eBay\Defs::USER_AGENT);
+		curl_setopt($connection, CURLOPT_USERAGENT, \Kern_River_Corp\eBay_API\Defs::USER_AGENT);
 		curl_setopt($connection, CURLOPT_HTTP_VERSION, 1 );	   // HTTP version must be 1.0
 		$response = simplexml_load_string(curl_exec($connection));
 		curl_close($connection);

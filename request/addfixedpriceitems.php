@@ -82,7 +82,7 @@ class AddFixedPriceItems extends \Kern_River_Corp\eBay_API\eBay_API_Call
 			]);
 			$this->getElementsByTagName('ShippingServiceCost')
 				->item($n++)
-				->setAttribute('currencyID', eBay\Defs::CURRENCY_ID);
+				->setAttribute('currencyID', \Kern_River_Corp\eBay_API\Defs::CURRENCY_ID);
 		}
 	}
 }

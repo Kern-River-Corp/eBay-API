@@ -31,9 +31,9 @@ class AddItem extends \Kern_River_Corp\eBay_API\eBay_API_Call
 		);
 		$this->body = $this->body->appendChild(new XML_Node('Item'));
 		$this->Site(
-			eBay\Defs::SITECODE
+			\Kern_River_Corp\eBay_API\Defs::SITECODE
 		)->Currency(
-			eBay\Defs::CURRENCY_ID
+			\Kern_River_Corp\eBay_API\Defs::CURRENCY_ID
 		);
 	}
 
@@ -52,7 +52,7 @@ class AddItem extends \Kern_River_Corp\eBay_API\eBay_API_Call
 		) {
 			$this->item['StartPrice'] = [
 				$this->item['StartPrice'],
-				$this->attribute('currencyID', eBay\Defs::CURRENCY_ID)
+				$this->attribute('currencyID', \Kern_River_Corp\eBay_API\Defs::CURRENCY_ID)
 			];
 			$this->item['PictureDetails'] = [
 				[
