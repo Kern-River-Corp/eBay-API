@@ -50,7 +50,6 @@ abstract class eBay_API_Call extends \shgysk8zer0\Core\XML_API_Call
 	 * @param bool   $sandbox  Production or sandbox environment
 	 * @param bool   $verbose  Use verbose in cURL request
 	 */
-
 	public function __construct(
 		$store,
 		$sandbox = false,
@@ -62,7 +61,9 @@ abstract class eBay_API_Call extends \shgysk8zer0\Core\XML_API_Call
 		$this->environment = ($this->sandbox) ? 'sandbox' : 'production';
 
 		parent::__construct(
-			($this->sandbox) ? \Kern_River_Corp\eBay_API\Defs::SANDBOX_URL : \Kern_River_Corp\eBay_API\Defs::PRODUCTION_URL,
+			($this->sandbox)
+				? \Kern_River_Corp\eBay_API\Defs::SANDBOX_URL
+				: \Kern_River_Corp\eBay_API\Defs::PRODUCTION_URL,
 			$this->setHeaders(),
 			$this::CALLNAME . 'Request',
 			\Kern_River_Corp\eBay_API\Defs::URN,
