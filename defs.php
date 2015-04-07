@@ -7,23 +7,23 @@ namespace Kern_River_Corp\eBay_API;
  */
 abstract class Defs
 {
-	const LEVEL = 583;
-	const SITEID = 0;
-	const SITECODE = 'US';
-	const URN = 'urn:ebay:apis:eBLBaseComponents';
-	const USER_AGENT = 'ebatns;xmlstyle;1.0';
-	const CHARSET = 'UTF-8';
-	const TYPE = 'text/xml';
-	const BOUNDARY = 'MIME_boundary';
-	const ERROR_LANG = 'en_US';
-	const WARNING_LEVEL = 'High';
+	const LEVEL              = 583;
+	const SITEID             = 0;
+	const SITECODE           = 'US';
+	const URN                = 'urn:ebay:apis:eBLBaseComponents';
+	const USER_AGENT         = 'ebatns;xmlstyle;1.0';
+	const CHARSET            = 'UTF-8';
+	const TYPE               = 'text/xml';
+	const BOUNDARY           = 'MIME_boundary';
+	const ERROR_LANG         = 'en_US';
+	const WARNING_LEVEL      = 'High';
 	const MEASUREMENT_SYSTEM = 'English';
-	const WEIGHT_UNIT_MAJOR = 'lb';
-	const WEIGHT_UNIT_MINOR = 'oz';
-	const LINEAR_UNIT = 'in';
-	const CURRENCY_ID = 'USD';
-	const DATETIME_FORMAT = 'Y-m-d\TH:i:s.000\Z';
-	const SANDBOX_URL = 'https://api.sandbox.ebay.com/ws/api.dll';
-	const PRODUCTION_URL = 'https://api.ebay.com/ws/api.dll';
-	const SLEEP = 5;
+	const WEIGHT_UNIT_MAJOR  = 'lb';
+	const WEIGHT_UNIT_MINOR  = 'oz';
+	const LINEAR_UNIT        = 'in';
+	const CURRENCY_ID        = 'USD';
+	const DATETIME_FORMAT    = 'Y-m-d\TH:i:s.000\Z';
+	const SANDBOX_URL        = 'https://api.sandbox.ebay.com/ws/api.dll';
+	const PRODUCTION_URL     = 'https://api.ebay.com/ws/api.dll';
+	const SLEEP              = 5;
 }
